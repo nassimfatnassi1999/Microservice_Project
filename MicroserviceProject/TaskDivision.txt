@@ -1,7 +1,7 @@
-Nassim : microservice news
-Achref : microservice statistics ,recomandation
-Alaa : microservice feedback
-Chaima : microservice forum
-noursine : microservice donation ,event
-daly :microservice restaurant
-youssef : microservice user
+Nassim : microservice news          9040
+Achref : microservice statistics ,recomandation         9050
+Alaa : microservice feedback                9020
+Chaima : microservice forum         9030
+noursine : microservice donation ,event         9010
+daly :microservice restaurant           9060
+youssef : microservice user         9070

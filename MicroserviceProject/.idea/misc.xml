@@ -11,6 +11,8 @@
         <option value="$PROJECT_DIR$/restaurant-service/pom.xml" />
         <option value="$PROJECT_DIR$/recomandation-service/pom.xml" />
         <option value="$PROJECT_DIR$/eventAndDonation-service/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/discoveryEureka/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

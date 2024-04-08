@@ -29,7 +29,6 @@ public class Restaurant {
     private RestaurantCategory category;
     private Location location;
     private float averageRating;
-    // Add opening hours, menu categories, payment methods, specials, reviews if necessary
     private float waitTime;
     private boolean isEcoFriendly;
     private String contactInfo;

@@ -22,7 +22,6 @@ public class Dish {
     private String photo;
     private int id_menu;
     private String category;
-    // Add ingredients, preparation time, availability, dietary information, calories/nutritional information if necessary
 
     @ManyToOne
     @JoinColumn(name = "id_restaurant")

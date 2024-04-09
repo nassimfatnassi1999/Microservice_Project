@@ -3,7 +3,7 @@ package com.saccess.newsservice.services;
 import java.util.List;
 
 import com.saccess.newsservice.entities.News;
-import com.saccess.newsservice.repository.INewsRepository;
+import com.saccess.newsservice.repositories.INewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

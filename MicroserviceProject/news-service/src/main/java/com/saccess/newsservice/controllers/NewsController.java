@@ -1,4 +1,4 @@
-package com.saccess.newsservice.controller;
+package com.saccess.newsservice.controllers;
 
 import com.saccess.newsservice.entities.News;
 import com.saccess.newsservice.services.IGestionNews;

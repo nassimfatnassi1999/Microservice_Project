@@ -1,4 +1,4 @@
-package com.saccess.newsservice.repository;
+package com.saccess.newsservice.repositories;
 
 import com.saccess.newsservice.entities.News;
 import org.springframework.data.jpa.repository.JpaRepository;

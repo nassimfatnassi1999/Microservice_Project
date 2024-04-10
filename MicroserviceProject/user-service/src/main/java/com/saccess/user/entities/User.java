@@ -29,5 +29,5 @@ public class User implements Serializable {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private List<String> preferences;
+    //private List<String> preferences;
 }

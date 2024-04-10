@@ -1,12 +1,23 @@
 package com.saccess.newsservice.services;
 
-import java.util.List;
+import java.io.IOException;
 
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.saccess.newsservice.entities.Image;
 import com.saccess.newsservice.entities.News;
 import com.saccess.newsservice.repositories.INewsRepository;
+import com.saccess.newsservice.repositories.ImageRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -14,6 +25,10 @@ public class GestionNewsImpl implements IGestionNews {
 
 	@Autowired
 	INewsRepository newRepo;
+	@Autowired
+	private CloudinaryService cloudinaryService;
+	@Autowired
+	private ImageRepository imgRepo;
 
 	@Override
 	public News getNews(Long id) {
@@ -48,4 +63,35 @@ public class GestionNewsImpl implements IGestionNews {
 		// TODO Auto-generated method stub
 		newRepo.deleteById(id);
 	}
+	//************************************************************************
+	@Transactional
+	public void addNewsWithImage(News news, MultipartFile imageFile) {
+		try {
+			// Enregistrer l'image sur Cloudinary
+			Map uploadResult = cloudinaryService.upload(imageFile);
+
+			// Récupérer l'URL de l'image téléchargée depuis Cloudinary
+			String imageUrl = (String) uploadResult.get("url");
+
+			// Enregistrer le lien URL de l'image dans la nouvelle
+			Image image = new Image();
+			image.setName(imageFile.getOriginalFilename());
+			image.setImageURL(imageUrl);
+			image.setUser_id(news.getUser_id());
+			//save the image
+			imgRepo.save(image);
+			// set image to news
+			news.setImage(image);
+			//configurer la date actuelle
+			LocalDate currentDate = LocalDate.now();
+			Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			news.setDate(date);
+			//Enregistrer la nouvelle dans la base de données
+			newRepo.save(news);
+		} catch (IOException e) {
+			// Gérer toute exception
+			e.printStackTrace(); // ou tout autre traitement d'erreur approprié
+		}
+	}
+
 }

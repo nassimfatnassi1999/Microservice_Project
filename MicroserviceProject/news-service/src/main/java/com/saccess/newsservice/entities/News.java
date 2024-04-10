@@ -1,12 +1,10 @@
 package com.saccess.newsservice.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +21,8 @@ public class News implements Serializable {
 	private Long id;
 	private String title;
 	private String comment;
-	private String image;
+	@OneToOne(cascade = CascadeType.PERSIST)
+	private Image image;
 	private Date date;
 	private Long user_id;
 }

@@ -1,0 +1,7 @@
+#Define the Base Image
+FROM openjdk:21-slim
+#Use the COPY instruction to copy your Spring Boot application's JAR file from your project directory
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+#The ENTRYPOINT instruction specifies the command to be executed when the container starts.
+ENTRYPOINT ["java", "-jar", "app.jar"]

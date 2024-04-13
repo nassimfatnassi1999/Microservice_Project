@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Getter
 @Setter
@@ -29,5 +30,6 @@ public class User implements Serializable {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    //private List<String> preferences;
+    private String preferences;
+
 }

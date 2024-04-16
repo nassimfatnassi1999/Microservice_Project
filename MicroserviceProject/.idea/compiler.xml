@@ -11,7 +11,6 @@
         <module name="news-service" />
         <module name="discoveryEureka" />
         <module name="restaurant-service" />
-        <module name="commande-service" />
         <module name="forum-service" />
         <module name="eventAndDonation-service" />
         <module name="user-service" />
@@ -19,6 +18,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="commande-service" target="17" />
       <module name="recomandation-service" target="17" />
     </bytecodeTargetLevel>
   </component>

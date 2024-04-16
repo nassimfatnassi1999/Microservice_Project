@@ -1,13 +1,13 @@
-package com.saccess.commandeservice;
+package com.saccess.feedBack.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CommandeServiceApplication {
+public class FeedBackServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CommandeServiceApplication.class, args);
+		SpringApplication.run(FeedBackServiceApplication.class, args);
 	}
 
 }

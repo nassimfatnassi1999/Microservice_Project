@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/feedback")
+@RequestMapping("/api/feedback")
 public class FeedBackController {
 
     IGestionFeedBack feedbackservice;

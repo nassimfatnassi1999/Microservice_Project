@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/news")
+@RequestMapping("/news")
 @AllArgsConstructor
 public class NewsController {
     IGestionNews news_service;

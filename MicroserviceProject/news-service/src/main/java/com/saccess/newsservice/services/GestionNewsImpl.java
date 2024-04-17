@@ -77,7 +77,6 @@ public class GestionNewsImpl implements IGestionNews {
 			Image image = new Image();
 			image.setName(imageFile.getOriginalFilename());
 			image.setImageURL(imageUrl);
-			image.setUser_id(news.getUser_id());
 			//save the image
 			imgRepo.save(image);
 			// set image to news

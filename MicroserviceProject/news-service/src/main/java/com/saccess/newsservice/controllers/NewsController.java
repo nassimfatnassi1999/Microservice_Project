@@ -16,6 +16,8 @@ import java.util.List;
 public class NewsController {
     IGestionNews news_service;
 
+
+
     @GetMapping("/getAll")
     public List<News> getAllNews(){
         return news_service.getAllNews();
@@ -57,5 +59,7 @@ public ResponseEntity<String> addNewsWithImage(@RequestParam("title") String tit
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de la news.");
     }
 }
+//************************************************************************************
+
 
 }

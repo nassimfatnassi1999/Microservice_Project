@@ -16,11 +16,13 @@
         <module name="user-service" />
         <module name="recomandation-service" />
         <module name="gateway" />
+        <module name="allergy-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="allergy-service" options="-parameters" />
       <module name="discoveryEureka" options="-parameters" />
       <module name="eventAndDonation-service" options="-parameters" />
       <module name="feedBack-service" options="-parameters" />

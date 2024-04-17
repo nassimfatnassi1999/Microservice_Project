@@ -21,7 +21,7 @@ public class News implements Serializable {
 	private Long id;
 	private String title;
 	private String comment;
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Image image;
 	private Date date;
 	private Long user_id;

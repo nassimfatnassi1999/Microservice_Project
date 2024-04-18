@@ -2,6 +2,7 @@ package com.saccess.eventAndDonation.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saccess.eventAndDonation.Dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,10 +27,16 @@ public class Event implements Serializable {
     private Long id_event;
     private String name;
     private String description;
-    private Date date;
-    private DocumentationTool.Location location;
+    private String location;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date endDate;
+    private String topic;
 
-   // private List<UserDTO> sponsorsList;
+
+
+    // private List<UserDTO> sponsorsList;
     private Long user_id;
 
 

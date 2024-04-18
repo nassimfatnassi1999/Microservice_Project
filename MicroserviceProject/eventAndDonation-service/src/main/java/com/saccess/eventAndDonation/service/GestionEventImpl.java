@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,10 +28,6 @@ public class GestionEventImpl implements IGestionEvent{
         return eventRepository.save(event);
     }
 
-    @Override
-    public Event updateEvent(Event event) {
-        return eventRepository.save(event);
-    }
 
     @Override
     public void removeEvent(Long id_event) {
@@ -38,4 +35,23 @@ public class GestionEventImpl implements IGestionEvent{
         eventRepository.deleteById(id_event);
 
     }
+
+
+
+    @Override
+    public Event updateEvent(Long id, Event updatedvent) {
+        Event E = eventRepository.findById(id).orElse(null);
+        if (E != null) {
+            E.setStartDate(updatedvent.getStartDate());
+            E.setEndDate(updatedvent.getEndDate());
+            E.setLocation(updatedvent.getLocation());
+            E.setTopic(updatedvent.getTopic());
+
+
+            return eventRepository.save(E);
+        }
+
+        return null;
+    }
+
 }

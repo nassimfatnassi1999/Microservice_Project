@@ -1,6 +1,7 @@
 package com.saccess.allergyservice.services;
 
 import com.saccess.allergyservice.entities.Allergy;
+import com.saccess.allergyservice.entities.Level;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface IGestionAllergy {
     public Allergy updateAllergy (Allergy allergy);
     public Allergy retrieveAllergy (Long id_Allergy);
     void removeAllergy(Long id_Allergy);
+    Allergy getAllergyByname(String name);
+    List<Allergy> getAllergyLevel(Level level);
 }

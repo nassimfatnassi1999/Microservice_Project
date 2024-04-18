@@ -1,6 +1,7 @@
 package com.saccess.allergyservice.services;
 
 import com.saccess.allergyservice.entities.Allergy;
+import com.saccess.allergyservice.entities.Level;
 import com.saccess.allergyservice.repositories.IAllergyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,4 +37,15 @@ public class GestionAllergyImp implements IGestionAllergy{
         allergyRepository.deleteById(id_Allergy);
 
     }
+
+    @Override
+    public Allergy getAllergyByname(String name) {
+        return allergyRepository.getAllergyByName(name);
+    }
+
+    @Override
+    public List<Allergy> getAllergyLevel(Level level) {
+        return allergyRepository.getAllergyByLevel(level);
+    }
+
 }

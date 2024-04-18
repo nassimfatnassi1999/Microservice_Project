@@ -1,6 +1,7 @@
 package com.saccess.allergyservice.controllers;
 
 import com.saccess.allergyservice.entities.Allergy;
+import com.saccess.allergyservice.entities.Level;
 import com.saccess.allergyservice.services.IGestionAllergy;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +30,12 @@ IGestionAllergy gestionAllergy;
         gestionAllergy.removeAllergy(id_allergy);
     }
 
-
+    @GetMapping("/getAllergybyname/{name}")
+    public Allergy getAllergyByName(@PathVariable("name") String name){
+        return gestionAllergy.getAllergyByname(name);
+    }
+    @GetMapping("/getAllergybyLevel/{level}")
+    public List<Allergy> getAllergyBylevel(@PathVariable("level")Level level){
+        return  gestionAllergy.getAllergyLevel(level);
+    }
 }

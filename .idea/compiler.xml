@@ -14,11 +14,13 @@
         <module name="forum-service" />
         <module name="eventAndDonation-service" />
         <module name="user-service" />
-        <module name="recomandation-service" />
         <module name="gateway" />
         <module name="allergy-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="recomandation-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

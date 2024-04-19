@@ -1,13 +1,13 @@
-package com.saccess.eventAndDonation.service;
+package com.saccess.feedBack;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EventAndDonationServiceApplication {
+public class FeedBackServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EventAndDonationServiceApplication.class, args);
+		SpringApplication.run(FeedBackServiceApplication.class, args);
 	}
 
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -18,14 +19,13 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long FeedbackID;
     private String Description;
-    private LocalDate CreatedAt;
-    private LocalDate UpdatedAt;
-    private String Image;
+    private Date CreatedAt;
+    private Date UpdatedAt;
     @Enumerated(EnumType.STRING)
     private Status status;
     @Enumerated(EnumType.STRING)
     private Type type;
-
+    private  Long user_id;
 
 
 }

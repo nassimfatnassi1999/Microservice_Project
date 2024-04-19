@@ -21,6 +21,11 @@ public class Restaurant {
         Cafe,
         OTHER
     }
+    public enum Badge {
+        Best_Seller,
+        Best_Donnor,
+        New
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_restaurant;
@@ -35,7 +40,8 @@ public class Restaurant {
     private boolean isEcoFriendly;
     private String contactInfo;
     private boolean delivery;
-
+    @Enumerated(EnumType.STRING)
+    private Badge badge;
     @OneToMany(mappedBy = "restaurant")
     private List<Dish> menu;
 }

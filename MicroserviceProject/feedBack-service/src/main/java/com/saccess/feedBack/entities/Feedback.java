@@ -26,4 +26,6 @@ public class Feedback {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+
+
 }

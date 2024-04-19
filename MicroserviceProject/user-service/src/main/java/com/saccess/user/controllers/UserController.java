@@ -1,9 +1,14 @@
 package com.saccess.user.controllers;
 
 import com.saccess.user.auth.JwtUtil;
+import com.saccess.user.dto.DeleteAccountRequest;
 import com.saccess.user.dto.LoginRequest;
 import com.saccess.user.entities.User;
 import com.saccess.user.services.GestionUserImpl;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +52,21 @@ public class UserController {
     public User getUserByToken(@RequestBody String token) {
         String email = jwt.getEmailFromToken(token);
         return userService.getUserByEmail(email);
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteUser(@RequestBody DeleteAccountRequest req){
+        String email;
+        try{
+            email = jwt.getEmailFromToken(req.getToken());
+        } catch (ExpiredJwtException | SignatureException | UnsupportedJwtException | MalformedJwtException exception){
+            return "Your token is invalid/expired";
+        }
+
+        if(userService.getUserByEmail(email) == userService.getUserById(req.getUserId())){
+            userService.deleteUser(req.getUserId());
+            return "User deleted successfully";
+        }
+        return "You are not allowed";
     }
 }

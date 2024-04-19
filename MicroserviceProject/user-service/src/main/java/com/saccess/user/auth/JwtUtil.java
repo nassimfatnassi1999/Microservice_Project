@@ -4,6 +4,7 @@ package com.saccess.user.auth;
 import com.saccess.user.entities.User;
 import com.saccess.user.services.GestionUserImpl;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 //import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
@@ -40,12 +41,12 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String getEmailFromToken(String token){
+    public String getEmailFromToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException{
         Claims c = parseJwtClaims(token);
         return c.getSubject();
     }
 
-    private Claims parseJwtClaims(String token) {
+    private Claims parseJwtClaims(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
         return jwtParser.parseClaimsJws(token).getBody();
     }
 

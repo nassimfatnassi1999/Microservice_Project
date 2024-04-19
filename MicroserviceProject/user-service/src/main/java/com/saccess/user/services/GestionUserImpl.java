@@ -52,4 +52,16 @@ public class GestionUserImpl implements IGestionUser {
         }
         return false;
     }
+
+    @Override
+    public void deleteUser(long usedId){
+        if(repo.findById(usedId).isPresent()){
+            repo.delete(getUserById(usedId));
+        }
+    }
+
+    @Override
+    public boolean modifyUser(long userId, User user) {
+        return false;
+    }
 }

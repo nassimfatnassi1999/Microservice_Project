@@ -7,4 +7,6 @@ public interface IGestionUser {
     public boolean login(String username, String password);
     public User getUserById(long id);
     public boolean resetPassword(long userId,String newPassword);
+    public void deleteUser(long userId);
+    public boolean modifyUser(long userId, User user);
 }

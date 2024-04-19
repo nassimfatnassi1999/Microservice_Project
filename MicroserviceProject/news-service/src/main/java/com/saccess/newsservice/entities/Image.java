@@ -18,10 +18,8 @@ import java.io.Serializable;
 public class Image implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String imageURL;
-    private Long user_id;
-
 }

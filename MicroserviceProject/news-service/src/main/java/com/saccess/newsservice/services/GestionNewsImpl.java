@@ -9,7 +9,9 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import com.cloudinary.utils.ObjectUtils;
 import com.saccess.newsservice.entities.Image;
 import com.saccess.newsservice.entities.News;
 import com.saccess.newsservice.repositories.INewsRepository;
@@ -43,25 +45,46 @@ public class GestionNewsImpl implements IGestionNews {
 	}
 
 	@Override
-	public News addNews(News n) {
-		// TODO Auto-generated method stub
-		return newRepo.save(n);
+	public News updateNews(Long id,String title,String desc) {
+		News N = newRepo.findById(id).get();
+		N.setTitle(title);
+		N.setComment(desc);
+		return newRepo.save(N);
 	}
 
-	@Override
-	public News updateNews(News n, Long id) {
-		News N = newRepo.findById(id).get();
-		if(N!=null) {
-		 return	newRepo.save(n);
+	public void deleteImageFromCloudinary(String imageUrl) {
+		try {
+			// 5oudh imageID from URL
+			String imageId = extractImageIdFromUrl(imageUrl);
+			// Supprimer image from Cloudinary
+			cloudinaryService.cloudinary.uploader().destroy(imageId, ObjectUtils.emptyMap());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		else
-		return null;
+	}
+	public  String extractImageIdFromUrl(String imageUrl) {
+        // positionner id mel URl
+		int lastSlashIndex = imageUrl.lastIndexOf("/");
+		int lastDotIndex = imageUrl.lastIndexOf(".");
+		// extract imageID from URL /blablabla
+		return imageUrl.substring(lastSlashIndex + 1, lastDotIndex);
 	}
 
 	@Override
 	public void deleteNews(Long id) {
-		// TODO Auto-generated method stub
-		newRepo.deleteById(id);
+		// Récupérer l'ID de l'image associée à la news
+		Optional<News> newsOptional = newRepo.findById(id);
+		if (newsOptional.isPresent()) {
+			News news = newsOptional.get();
+			String imageURL = news.getImage().getImageURL();
+			Long imageId = news.getImage().getId();
+			// Supprimer image from Cloudinary
+			deleteImageFromCloudinary(imageURL);
+			// Supprimer la news de la base de données
+			newRepo.deleteById(id);
+			// Supprimer l'entrée de l'image de la base de données
+			imgRepo.deleteById(imageId);
+		}
 	}
 	//************************************************************************
 	@Transactional
@@ -69,15 +92,12 @@ public class GestionNewsImpl implements IGestionNews {
 		try {
 			// Enregistrer l'image sur Cloudinary
 			Map uploadResult = cloudinaryService.upload(imageFile);
-
-			// Récupérer l'URL de l'image téléchargée depuis Cloudinary
+			// 5oudh l'URL de l'image from  Cloudinary
 			String imageUrl = (String) uploadResult.get("url");
-
-			// Enregistrer le lien URL de l'image dans la nouvelle
+			// Enregistrer le lien URL de l'image dans news
 			Image image = new Image();
 			image.setName(imageFile.getOriginalFilename());
 			image.setImageURL(imageUrl);
-			image.setUser_id(news.getUser_id());
 			//save the image
 			imgRepo.save(image);
 			// set image to news
@@ -89,8 +109,7 @@ public class GestionNewsImpl implements IGestionNews {
 			//Enregistrer la nouvelle dans la base de données
 			newRepo.save(news);
 		} catch (IOException e) {
-			// Gérer toute exception
-			e.printStackTrace(); // ou tout autre traitement d'erreur approprié
+			e.printStackTrace();
 		}
 	}
 

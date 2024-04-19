@@ -37,7 +37,7 @@ public class CloudinaryService {
     }
     public Map upload(MultipartFile multipartFile) throws IOException {
         File file = convert(multipartFile);
-        // Spécifiez le type de ressource que vous souhaitez uploader (dans ce cas, un PDF)
+        // Spécifiez le type de ressource que vous souhaitez uploader (dans ce cas, un IMG)
         Map params = ObjectUtils.asMap(
                 "resource_type", "auto" // Vous pouvez spécifier "auto" pour détecter automatiquement le type de ressource
         );

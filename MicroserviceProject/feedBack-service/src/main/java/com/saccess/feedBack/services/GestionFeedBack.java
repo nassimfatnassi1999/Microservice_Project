@@ -1,6 +1,9 @@
 package com.saccess.feedBack.services;
 
+import com.saccess.feedBack.clients.UserClient;
+import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
+import com.saccess.feedBack.entities.Status;
 import com.saccess.feedBack.repositories.IFeedBackRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,13 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 
 @Service
 @AllArgsConstructor
@@ -35,9 +43,11 @@ public class GestionFeedBack implements IGestionFeedBack {
         javaMailSender.send(emailMessage);
        // System.out.println("E-mail de notification envoyé à : " + userEmail);
     }*/
-   @Autowired
+
+    @Autowired
     IFeedBackRepository feedBackRepository;
 
+    UserClient userClient;
     @Override
     public List<Feedback> retrieveAllFeedbacks() {
 
@@ -46,6 +56,9 @@ public class GestionFeedBack implements IGestionFeedBack {
 
     @Override
     public Feedback addFeedBack(Feedback feedback) {
+        LocalDate currentDate = LocalDate.now();
+        Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        feedback.setCreatedAt(date);
 
         return feedBackRepository.save(feedback);
     }
@@ -60,15 +73,62 @@ public class GestionFeedBack implements IGestionFeedBack {
     public Feedback retrieveFeedback(Long idfb) {
         return feedBackRepository.findById(idfb).get();
     }
-
     @Override
-    public List<Feedback> findByDateCreation(LocalDate creatDate) {
-        return feedBackRepository.findDateCreation(creatDate) ;
+    public List<Feedback> findByDateCreation(Date creatDate) {
+        List<Feedback> filteredFeedbacks = new ArrayList<>();
+        List<Feedback> allFeedbacks = feedBackRepository.findAll();
+
+        for (Feedback feedback : allFeedbacks) {
+            Date createdAt = feedback.getCreatedAt();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            String feedbackDateStr = sdf.format(createdAt);
+            String targetDateStr = sdf.format(creatDate);
+            if (feedbackDateStr.equals(targetDateStr)) {
+                filteredFeedbacks.add(feedback);
+            }
+        }
+
+        return filteredFeedbacks;
     }
 
+    public List<Feedback> findByMounthCreation(Date creatDate) {
+        List<Feedback> filteredFeedbacks = new ArrayList<>();
+        List<Feedback> allFeedbacks = feedBackRepository.findAll();
+
+        for (Feedback feedback : allFeedbacks) {
+            Date createdAt = feedback.getCreatedAt();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM");
+            String feedbackMonth = sdf.format(createdAt);
+            String targetMonth = sdf.format(creatDate);
+
+            if (feedbackMonth.equals(targetMonth)) {
+                filteredFeedbacks.add(feedback);
+            }
+        }
+
+        return filteredFeedbacks;
+    }
     @Override
     public void removeFeedback(Long fbid) {
         feedBackRepository.deleteById(fbid);
+    }
+
+    @Override
+    public Userdto findUserById(Long userid){
+        var user = userClient.getUserById(userid);
+        return user;
+    }
+    public List<Feedback> findByStatus(Status status) {
+        List<Feedback> filteredFeedbacks = new ArrayList<>();
+        List<Feedback> allFeedbacks = feedBackRepository.findAll();
+
+        for (Feedback feedback : allFeedbacks) {
+            if (feedback.getStatus() == status) {
+                filteredFeedbacks.add(feedback);
+            }
+        }
+
+        return filteredFeedbacks;
     }
 
 }

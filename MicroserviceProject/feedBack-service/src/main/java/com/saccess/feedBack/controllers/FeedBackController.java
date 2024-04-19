@@ -3,6 +3,7 @@ package com.saccess.feedBack.controllers;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.services.IGestionFeedBack;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequestMapping("/api/feedback")
 public class FeedBackController {
 
+    @Autowired
     IGestionFeedBack feedbackservice;
     @GetMapping("/getall")
     public List<Feedback> getall(){
@@ -33,7 +35,5 @@ public class FeedBackController {
     public void delete(@PathVariable("id") Long feedbackID){
         feedbackservice.removeFeedback(feedbackID);
     }
-
-
 
 }

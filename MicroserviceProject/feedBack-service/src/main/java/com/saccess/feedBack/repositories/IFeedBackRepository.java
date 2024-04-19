@@ -15,4 +15,5 @@ public interface IFeedBackRepository extends JpaRepository<Feedback,Long> {
     @Query("SELECT f FROM Feedback f WHERE f.CreatedAt = :CreateDate")
     public List<Feedback> findDateCreation(@Param("CreatedAt") LocalDate CreatDate);
 
+
 }

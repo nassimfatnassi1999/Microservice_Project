@@ -12,13 +12,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class Restaurant {
     public enum RestaurantCategory {
         Fast_Food,
         Cafe_Restaurant,
         Pizzeria,
         Cafe,
-        OTHER;
+        OTHER
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +28,9 @@ public class Restaurant {
     private String logo;
     @Enumerated(EnumType.STRING)
     private RestaurantCategory category;
-    private Location location;
     private float averageRating;
+    @OneToOne
+    private Location location;
     private float waitTime;
     private boolean isEcoFriendly;
     private String contactInfo;

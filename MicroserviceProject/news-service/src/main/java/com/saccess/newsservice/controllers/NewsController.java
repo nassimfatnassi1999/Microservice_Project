@@ -1,5 +1,6 @@
 package com.saccess.newsservice.controllers;
 
+import com.saccess.newsservice.dto.UserDto;
 import com.saccess.newsservice.entities.News;
 import com.saccess.newsservice.services.IGestionNews;
 import com.saccess.newsservice.services.ScheduledService;
@@ -67,5 +68,11 @@ public ResponseEntity<String> addNewsWithImage(@RequestParam("title") String tit
     public Iterable<News> getOldNews(){
         return scheduledService.getOldNews();
        }
+//***************************************************************************************
+
+     @GetMapping("/getAllUsers")
+    public List<UserDto> getallUsersFromYoussef(){
+        return news_service.getallUsersFromYoussef();
+     }
 
 }

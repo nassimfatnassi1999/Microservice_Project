@@ -10,8 +10,9 @@ public interface IGestionNews {
 
 	public News getNews(Long id);
 	public List<News> getAllNews();
-	public News addNews(News n);
-	public News updateNews(News n,Long id);
+	public News updateNews(Long id,String title,String desc);
 	public void deleteNews(Long id);
 	public void addNewsWithImage(News news, MultipartFile imageFile);
+	public void deleteImageFromCloudinary(String imageUrl);
+	 String extractImageIdFromUrl(String imageUrl);
 }

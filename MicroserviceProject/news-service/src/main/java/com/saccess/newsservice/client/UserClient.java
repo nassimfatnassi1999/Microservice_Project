@@ -4,4 +4,5 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(value = "USER-SERVICE")
 public interface UserClient {
+
 }

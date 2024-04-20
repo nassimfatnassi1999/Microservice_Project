@@ -1,5 +1,6 @@
 package com.saccess.eventAndDonation.service;
 
+import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Donation;
 import com.saccess.eventAndDonation.entities.Event;
 
@@ -16,7 +17,7 @@ public interface IGestionEvent {
 
     Event updateEvent(Long id, Event updatedvent);
 
-
+    Userdto findUserById(Long userid);
 
 
 

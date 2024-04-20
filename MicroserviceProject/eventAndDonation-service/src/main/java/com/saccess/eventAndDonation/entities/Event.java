@@ -3,17 +3,13 @@ package com.saccess.eventAndDonation.entities;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.saccess.eventAndDonation.Dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.tools.DocumentationTool;
-import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -36,8 +32,8 @@ public class Event implements Serializable {
 
 
 
-    // private List<UserDTO> sponsorsList;
-    private Long user_id;
+    // private List<Userdto> sponsorsList;
+    private  Long user_id;
 
 
 }

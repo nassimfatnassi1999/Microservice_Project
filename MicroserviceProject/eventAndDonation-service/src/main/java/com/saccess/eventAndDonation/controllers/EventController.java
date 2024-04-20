@@ -1,5 +1,6 @@
 package com.saccess.eventAndDonation.controllers;
 
+import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Donation;
 import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.service.IGestionEvent;
@@ -46,5 +47,10 @@ public class EventController {
     public void removeEvent(@PathVariable("id") Long id) {
         gestionEvent.removeEvent(id);
 
+    }
+
+    @GetMapping("/getUserByID/{id}")
+    public Userdto getUserByID(@PathVariable("id")Long iduser){
+        return gestionEvent.findUserById(iduser);
     }
 }

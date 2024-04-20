@@ -1,5 +1,7 @@
 package com.saccess.eventAndDonation.service;
 
+import com.saccess.eventAndDonation.clients.UserClient;
+import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.repositories.IEventRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class GestionEventImpl implements IGestionEvent{
 
     IEventRepository eventRepository;
+    UserClient userClient;
     @Override
     public List<Event> retrieveAllEvents() {
         return eventRepository.findAll();
@@ -52,6 +55,11 @@ public class GestionEventImpl implements IGestionEvent{
         }
 
         return null;
+    }
+    @Override
+    public Userdto findUserById(Long userid){
+        var user = userClient.getUserById(userid);
+        return user;
     }
 
 }

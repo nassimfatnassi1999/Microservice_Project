@@ -26,6 +26,7 @@ public class Donation implements Serializable {
     private String description;
     private Date date;
     private Long id_res;
+    private  Long user_id;
 
 
 

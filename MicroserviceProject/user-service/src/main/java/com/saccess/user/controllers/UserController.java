@@ -48,4 +48,10 @@ public class UserController {
         String email = jwt.getEmailFromToken(token);
         return userService.getUserByEmail(email);
     }
+    ////usedbyAladin
+    @GetMapping("/getbyid/{id}")
+    public User getUserById(@PathVariable("id")Long id){
+        return userService.getUserById(id);
+    }
+
 }

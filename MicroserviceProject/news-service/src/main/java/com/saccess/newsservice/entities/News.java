@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Getter
 @Setter
@@ -23,6 +25,7 @@ public class News implements Serializable {
 	private String comment;
 	@OneToOne(cascade = CascadeType.MERGE)
 	private Image image;
+	@DateTimeFormat(pattern = "YYYY-MM-DD")
 	private Date date;
 	private Long user_id;
 }

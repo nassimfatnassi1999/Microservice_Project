@@ -15,6 +15,8 @@ import org.springframework.data.repository.query.Param;
 public interface IFeedBackRepository extends JpaRepository<Feedback,Long> {
 
 
+  @Query("SELECT f FROM Feedback f ORDER BY f.UpdatedAt DESC")
+  List<Feedback> findAllByOrderByUpdatedAtDesc();
 
 
 }

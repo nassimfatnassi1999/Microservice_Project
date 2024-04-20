@@ -3,13 +3,20 @@ package com.saccess.feedBack.controllers;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
+import com.saccess.feedBack.entities.Type;
+import com.saccess.feedBack.repositories.IFeedBackRepository;
 import com.saccess.feedBack.services.IGestionFeedBack;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
@@ -18,6 +25,7 @@ public class FeedBackController {
 
     @Autowired
     IGestionFeedBack feedbackservice;
+
     @GetMapping("/getall")
     public List<Feedback> getall(){
         return feedbackservice.retrieveAllFeedbacks();
@@ -39,12 +47,13 @@ public class FeedBackController {
         feedbackservice.removeFeedback(feedbackID);
     }
 
-    @GetMapping("/getFeedbackByDate")
-    public List<Feedback> findByDateCreation(@RequestBody Date date){
+    @GetMapping("/getFeedbackByDate/{date}")
+    public List<Feedback> findByDateCreation(@PathVariable("date") Date date){
         return feedbackservice.findByDateCreation(date);
     }
     @GetMapping("/getFeedbackByMonth")
     List<Feedback> findByMounthCreation(@RequestBody Date date){
+
         return feedbackservice.findByMounthCreation(date);
     }
     @GetMapping("/getUserByID/{id}")
@@ -54,5 +63,22 @@ public class FeedBackController {
     @GetMapping("/status/{status}")
     public List<Feedback> getFeedbacksByStatus(@PathVariable Status status) {
         return feedbackservice.findByStatus(status);
+    }
+
+
+    @PutMapping("/editDescription/{feedbackId}")
+    public ResponseEntity<String> updateFeedbackDescription(@PathVariable Long feedbackId, @RequestBody String newDescription) {
+        try {
+            feedbackservice.updateFeedbackDescription(feedbackId, newDescription);
+            return ResponseEntity.ok("Feedback description updated successfully.");
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Feedback not found", e);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", e);
+        }
+    }
+    @GetMapping("/getFeedBackByType/{type}")
+    public List<Feedback> getFeedbacksByType(@PathVariable("type") Type type) {
+        return feedbackservice.findByType(type);
     }
 }

@@ -4,7 +4,9 @@ import com.saccess.feedBack.clients.UserClient;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
+import com.saccess.feedBack.entities.Type;
 import com.saccess.feedBack.repositories.IFeedBackRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,6 +19,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -54,6 +57,7 @@ public class GestionFeedBack implements IGestionFeedBack {
         return feedBackRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Feedback addFeedBack(Feedback feedback) {
         LocalDate currentDate = LocalDate.now();
@@ -80,7 +84,7 @@ public class GestionFeedBack implements IGestionFeedBack {
 
         for (Feedback feedback : allFeedbacks) {
             Date createdAt = feedback.getCreatedAt();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/DD");
             String feedbackDateStr = sdf.format(createdAt);
             String targetDateStr = sdf.format(creatDate);
             if (feedbackDateStr.equals(targetDateStr)) {
@@ -118,6 +122,7 @@ public class GestionFeedBack implements IGestionFeedBack {
         var user = userClient.getUserById(userid);
         return user;
     }
+    @Override
     public List<Feedback> findByStatus(Status status) {
         List<Feedback> filteredFeedbacks = new ArrayList<>();
         List<Feedback> allFeedbacks = feedBackRepository.findAll();
@@ -129,6 +134,41 @@ public class GestionFeedBack implements IGestionFeedBack {
         }
 
         return filteredFeedbacks;
+    }
+    @Override
+    public List<Feedback> findByType(Type type) {
+        List<Feedback> filteredFeedbacks = new ArrayList<>();
+        List<Feedback> allFeedbacks = feedBackRepository.findAll();
+
+        for (Feedback feedback : allFeedbacks) {
+            if (feedback.getType() == type) {
+                filteredFeedbacks.add(feedback);
+            }
+        }
+
+        return filteredFeedbacks;
+    }
+    @Override
+    public void updateFeedbackDescription(Long feedbackId, String newDescription) {
+
+        Optional<Feedback> optionalFeedback = feedBackRepository.findById(feedbackId);
+
+        if (optionalFeedback.isPresent()) {
+            Feedback feedback = optionalFeedback.get();
+            feedback.setDescription(newDescription);
+
+
+            feedBackRepository.save(feedback);
+        } else {
+
+        }
+    }
+    public List<Feedback> findRecentlyUpdatedFeedbacks(int nbr) {
+        List<Feedback> feedbacks = feedBackRepository.findAllByOrderByUpdatedAtDesc();
+
+        List<Feedback> updatedFeedbacks = feedbacks.subList(0, Math.min(nbr, feedbacks.size()));
+
+        return updatedFeedbacks;
     }
 
 }

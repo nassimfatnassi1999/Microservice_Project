@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/feedback")
+@RequestMapping("/apiala/feedback")
 public class FeedBackController {
 
     @Autowired

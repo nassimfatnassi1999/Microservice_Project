@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GestionUserImpl implements IGestionUser {
     @Autowired
@@ -51,5 +53,10 @@ public class GestionUserImpl implements IGestionUser {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return repo.findAll();
     }
 }

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Allergy")
+@RequestMapping("/apiachref/Allergy")
 @CrossOrigin("*")
 @AllArgsConstructor
 public class AllergyControllerImpl {

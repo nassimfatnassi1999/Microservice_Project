@@ -4,6 +4,7 @@ import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
 import com.saccess.feedBack.entities.Type;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -22,4 +23,5 @@ public interface IGestionFeedBack {
     List<Feedback> findByType(Type type);
     void updateFeedbackDescription(Long feedbackId, String newDescription);
     List<Feedback> findRecentlyUpdatedFeedbacks(int nbr);
+
 }

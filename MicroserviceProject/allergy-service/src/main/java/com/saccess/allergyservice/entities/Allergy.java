@@ -18,11 +18,11 @@ public class Allergy implements Serializable {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id_Allergy;
-  private String name;
-  @Enumerated(EnumType.STRING)
-  private Level level;
-  private  String dietry_restrictionsary;
-  private LocalDate date;
-  private Long id_user;
+      private String name;
+      @Enumerated(EnumType.STRING)
+      private Level level;
+      private  String dietry_restrictionsary;
+      private LocalDate date;
+      private Long id_user;
 
 }

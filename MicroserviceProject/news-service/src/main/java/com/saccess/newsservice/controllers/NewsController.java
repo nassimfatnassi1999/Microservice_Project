@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/news")
+@RequestMapping("/apinassim/news")
 @AllArgsConstructor
 public class NewsController {
     IGestionNews news_service;

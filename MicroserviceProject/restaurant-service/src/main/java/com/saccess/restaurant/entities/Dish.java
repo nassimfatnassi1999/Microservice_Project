@@ -23,7 +23,6 @@ public class Dish {
     private String description;
     private float price;
     private String photo;
-    private int id_menu;
     private String category;
 
     @ManyToOne

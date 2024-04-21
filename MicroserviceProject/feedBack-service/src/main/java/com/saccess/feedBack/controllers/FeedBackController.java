@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/feedback")
+@RequestMapping("/apiala/feedback")
 public class FeedBackController {
 
     @Autowired

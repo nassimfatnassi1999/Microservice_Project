@@ -6,7 +6,10 @@ import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.service.IGestionEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +29,7 @@ public class EventController {
         return gestionEvent.retrieveAllEvents();
     }
 
-    @PostMapping("/addEvent")
+    @PostMapping("/addEventaaaa")
     public Event addevent(@RequestBody Event event) {
 
         return gestionEvent.addEvent(event);
@@ -42,15 +45,42 @@ public class EventController {
     public Event modifyEvent(@PathVariable("id") Long id, @RequestBody Event updatedevent) {
         return gestionEvent.updateEvent(id, updatedevent);
     }
-    @DeleteMapping("/removeEvent/{id}")
-    @ResponseBody
-    public void removeEvent(@PathVariable("id") Long id) {
-        gestionEvent.removeEvent(id);
-
+    @DeleteMapping("/delete/{id}")
+    public void deleteEvent(@PathVariable("id") Long id){
+        gestionEvent.deleteEvent(id);
     }
 
-    @GetMapping("/getUserByID/{id}")
+    @GetMapping("/getuserbyid/{id}")
     public Userdto getUserByID(@PathVariable("id")Long iduser){
         return gestionEvent.findUserById(iduser);
+    }
+
+
+    @GetMapping("/events/{name}")
+
+    public List<Event> getByName(@PathVariable("name")String name) {
+
+
+        return gestionEvent.findByName(name);
+    }
+
+    @PostMapping("/addEvent")
+    public ResponseEntity<String> addEventWithImage(@RequestParam("name") String name,
+                                                   @RequestParam("topic") String topic,
+                                                   @RequestParam("user_id") Long userId,
+                                                   @RequestParam("image") MultipartFile imageFile) {
+        try {
+            Event event = new Event();
+            event.setName(name);
+            event.setTopic(topic);
+            event.setUser_id(userId);
+
+            gestionEvent.addEventWithImage(event, imageFile);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("Event ajoutée avec succès !");
+        } catch (Exception e) {
+            e.printStackTrace(); // ou tout autre traitement d'erreur approprié
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'event.");
+        }
     }
 }

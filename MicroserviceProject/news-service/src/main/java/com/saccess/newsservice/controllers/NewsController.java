@@ -1,7 +1,9 @@
 package com.saccess.newsservice.controllers;
 
+import com.saccess.newsservice.dto.UserDto;
 import com.saccess.newsservice.entities.News;
 import com.saccess.newsservice.services.IGestionNews;
+import com.saccess.newsservice.services.ScheduledService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,10 @@ import java.util.List;
 public class NewsController {
     IGestionNews news_service;
 
+    ScheduledService scheduledService;
+
+
+
     @GetMapping("/getAll")
     public List<News> getAllNews(){
         return news_service.getAllNews();
@@ -25,17 +31,17 @@ public class NewsController {
     public News getNewsById(@PathVariable("id") Long id){
         return news_service.getNews(id);
     }
-    @PostMapping("/add")
-    public News addNews(@RequestBody News n){
-       return news_service.addNews(n);
-    }
+
     @DeleteMapping("/delete/{id}")
     public void deleteNews(@PathVariable("id") Long id){
         news_service.deleteNews(id);
     }
-    @PutMapping("/edit/{id}")
-    public News updateNews(@RequestBody News n,@PathVariable("id") Long id){
-        return news_service.updateNews(n,id);
+    @PatchMapping("/edit/{id}/{t}/{c}")
+    public News updateNews(@PathVariable("id") Long id,
+                           @PathVariable("t") String t,
+                           @PathVariable("c") String c){
+
+        return news_service.updateNews(id,t,c);
     }
 //***********************************************************************
 @PostMapping("/addNews")
@@ -57,5 +63,16 @@ public ResponseEntity<String> addNewsWithImage(@RequestParam("title") String tit
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de la news.");
     }
 }
+//************************************************************************************
+       @GetMapping("/getOldNews")
+    public Iterable<News> getOldNews(){
+        return scheduledService.getOldNews();
+       }
+//***************************************************************************************
+
+     @GetMapping("/getAllUsers")
+    public List<UserDto> getallUsersFromYoussef(){
+        return news_service.getallUsersFromYoussef();
+     }
 
 }

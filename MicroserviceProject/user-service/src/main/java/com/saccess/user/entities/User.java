@@ -32,4 +32,5 @@ public class User implements Serializable {
     private Role role;
     private String preferences;
 
+
 }

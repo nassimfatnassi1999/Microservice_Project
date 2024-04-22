@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Getter
 @Setter
@@ -17,12 +19,13 @@ import lombok.Setter;
 public class News implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
 	private String comment;
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Image image;
+	@DateTimeFormat(pattern = "YYYY-MM-DD")
 	private Date date;
 	private Long user_id;
 }

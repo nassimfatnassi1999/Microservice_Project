@@ -11,19 +11,21 @@
         <module name="news-service" />
         <module name="discoveryEureka" />
         <module name="restaurant-service" />
-        <module name="commande-service" />
         <module name="forum-service" />
         <module name="eventAndDonation-service" />
         <module name="user-service" />
         <module name="gateway" />
+        <module name="allergy-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="commande-service" target="17" />
       <module name="recomandation-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="allergy-service" options="-parameters" />
       <module name="commande-service" options="-parameters" />
       <module name="discoveryEureka" options="-parameters" />
       <module name="eventAndDonation-service" options="-parameters" />

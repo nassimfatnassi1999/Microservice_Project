@@ -3,6 +3,9 @@ package com.saccess.user.services;
 import com.saccess.user.entities.User;
 import com.saccess.user.repositories.UserRepoInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,4 +67,6 @@ public class GestionUserImpl implements IGestionUser {
     public boolean modifyUser(long userId, User user) {
         return false;
     }
+
+
 }

@@ -5,10 +5,24 @@ import com.saccess.user.entities.User;
 import com.saccess.user.services.GestionUserImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 //import org.springframework.security.core.AuthenticationException;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +30,10 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class JwtUtil {
 
+    GestionUserImpl userService = new GestionUserImpl();
+
     private final String secret_key = "mysecretkeyisnotwhatyouthinkaboutbrodontworryaboutithahahahahahahahahahahahahaha";
-    private long accessTokenValidity = 60*60*1000;
+    private final long accessTokenValidity = 60*60*1000;
 
     private final JwtParser jwtParser;
 
@@ -28,10 +44,8 @@ public class JwtUtil {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 
-    public String createToken(User user) {
-        Claims claims = Jwts.claims().setSubject(user.getEmail());
-        claims.put("firstName",user.getFirstName());
-        claims.put("lastName",user.getLastName());
+    public String createToken(UserDetails user) {
+        Claims claims = Jwts.claims().setSubject(user.getUsername());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()
@@ -75,13 +89,13 @@ public class JwtUtil {
         return null;
     }
 
-//    public boolean validateClaims(Claims claims) throws AuthenticationException {
-//        try {
-//            return claims.getExpiration().after(new Date());
-//        } catch (Exception e) {
-//            throw e;
-//        }
-//    }
+    public boolean validateClaims(Claims claims) throws AuthenticationException {
+        try {
+            return claims.getExpiration().after(new Date());
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     public String getEmail(Claims claims) {
         return claims.getSubject();

@@ -1,6 +1,5 @@
 package com.saccess.forumservice.services;
 
-import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.Repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;

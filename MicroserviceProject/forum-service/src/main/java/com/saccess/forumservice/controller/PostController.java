@@ -1,5 +1,4 @@
 package com.saccess.forumservice.controller;
-import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.services.IGestionPost;
 import org.springframework.beans.factory.annotation.Autowired;

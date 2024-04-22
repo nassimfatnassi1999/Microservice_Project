@@ -1,6 +1,5 @@
 package com.saccess.forumservice.services;
 
-import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 
 import java.util.List;

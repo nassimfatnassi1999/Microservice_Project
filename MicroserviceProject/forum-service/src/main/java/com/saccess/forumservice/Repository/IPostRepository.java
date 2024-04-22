@@ -1,6 +1,5 @@
 package com.saccess.forumservice.Repository;
 
-import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

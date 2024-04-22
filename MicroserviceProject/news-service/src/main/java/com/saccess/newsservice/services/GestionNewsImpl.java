@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.cloudinary.utils.ObjectUtils;
+import com.saccess.newsservice.client.UserClient;
+import com.saccess.newsservice.dto.UserDto;
 import com.saccess.newsservice.entities.Image;
 import com.saccess.newsservice.entities.News;
 import com.saccess.newsservice.repositories.INewsRepository;
@@ -26,11 +28,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class GestionNewsImpl implements IGestionNews {
 
 	@Autowired
-	INewsRepository newRepo;
+	private  INewsRepository newRepo;
 	@Autowired
 	private CloudinaryService cloudinaryService;
 	@Autowired
 	private ImageRepository imgRepo;
+	@Autowired
+	private  NotificationService notif;
+	@Autowired
+	private UserClient userClient;
 
 	@Override
 	public News getNews(Long id) {
@@ -94,23 +100,25 @@ public class GestionNewsImpl implements IGestionNews {
 			Map uploadResult = cloudinaryService.upload(imageFile);
 			// 5oudh l'URL de l'image from  Cloudinary
 			String imageUrl = (String) uploadResult.get("url");
-			// Enregistrer le lien URL de l'image dans news
 			Image image = new Image();
 			image.setName(imageFile.getOriginalFilename());
 			image.setImageURL(imageUrl);
-			//save the image
 			imgRepo.save(image);
-			// set image to news
 			news.setImage(image);
-			//configurer la date actuelle
 			LocalDate currentDate = LocalDate.now();
 			Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			news.setDate(date);
-			//Enregistrer la nouvelle dans la base de données
 			newRepo.save(news);
+			//envoie notif to user
+			List<UserDto> allUsers = userClient.getAllUsers();
+			notif.sendNotification(news.getTitle(),allUsers);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<UserDto> getallUsersFromYoussef(){
+		return userClient.getAllUsers();
 	}
 
 }

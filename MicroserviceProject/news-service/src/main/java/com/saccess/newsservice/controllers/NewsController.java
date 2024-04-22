@@ -1,5 +1,6 @@
 package com.saccess.newsservice.controllers;
 
+import com.saccess.newsservice.dto.UserDto;
 import com.saccess.newsservice.entities.News;
 import com.saccess.newsservice.services.IGestionNews;
 import com.saccess.newsservice.services.ScheduledService;
@@ -12,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/news")
+@CrossOrigin("*")
+@RequestMapping("/apinassim/news")
 @AllArgsConstructor
 public class NewsController {
     IGestionNews news_service;
@@ -67,5 +69,11 @@ public ResponseEntity<String> addNewsWithImage(@RequestParam("title") String tit
     public Iterable<News> getOldNews(){
         return scheduledService.getOldNews();
        }
+//***************************************************************************************
+
+     @GetMapping("/getAllUsers")
+    public List<UserDto> getallUsersFromYoussef(){
+        return news_service.getallUsersFromYoussef();
+     }
 
 }

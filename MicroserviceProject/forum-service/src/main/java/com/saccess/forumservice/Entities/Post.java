@@ -27,16 +27,17 @@ public class Post implements Serializable{
     private String contentPost ;
     private LocalDate creationDatePost ;
     private Long auteurId;
-    /*likes : List<User>
-    dislikes: List<User>*/
-    private int likes;
-    private int dislikes;
     private boolean isApproved;
+    @Enumerated(EnumType.STRING)
+    private Topic topic;
+    @ElementCollection
+    private List<Long> postLikedBy = new ArrayList<>();
+    @ElementCollection
+    private List<Long> postDislikedBy = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     private List<Report> reports= new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "postC")
     private List<CommentairePost> commentairePosts = new ArrayList<>();
-    @Enumerated(EnumType.STRING)
-    private Topic topic;
+
 }
 

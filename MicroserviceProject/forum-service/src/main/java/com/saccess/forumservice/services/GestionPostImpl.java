@@ -1,5 +1,6 @@
 package com.saccess.forumservice.services;
 
+import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.Repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 
 
 @Service
-public class GestionPostImpl implements IGestionPost{
+public class GestionPostImpl implements IGestionPost {
     @Autowired
     IPostRepository postRep;
 
@@ -61,7 +62,7 @@ public class GestionPostImpl implements IGestionPost{
         return postRep.save(post);
     }
 
-    @Override
+    /*@Override
     public Post toggleLikeDislike(Long idPost, Long userId) {
         Post post = retreivePost(idPost);
 
@@ -79,14 +80,14 @@ public class GestionPostImpl implements IGestionPost{
         postRep.save(post);
 
         return post;
-    }
+    }*/
 
     @Override
     public List<Post> getPostsByTopic(Topic topic) {
         return postRep.findByTopic(topic);
     }
 
-    @Override
+   /* @Override
     public Post reportPost(Long idPost, Long userId) {
         Post post = retreivePost(idPost);
 
@@ -106,7 +107,7 @@ public class GestionPostImpl implements IGestionPost{
 
         return post;
     }
-
+*/
     @Override
     public List<Post> getPostsByAuthor(Long authorId) {
         return postRep.findByAuteurId(authorId);

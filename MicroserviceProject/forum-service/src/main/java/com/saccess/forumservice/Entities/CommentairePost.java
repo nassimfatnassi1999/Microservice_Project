@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,11 +22,11 @@ public class CommentairePost implements Serializable {
     private Long idComm ;
     private String contentComm ;
     private Long auteurId;
-    private int likes;
-    private int dislikes;
-    /* likes : List<User>
-     dislikes: List<User>*/
     private LocalDate creationDateComm ;
+    @ElementCollection
+    private List<Long> commLikedBy = new ArrayList<>();
+    @ElementCollection
+    private List<Long> commDislikedBy = new ArrayList<>();
     @ManyToOne
     Post postC;
 }

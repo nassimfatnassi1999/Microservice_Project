@@ -1,4 +1,5 @@
 package com.saccess.forumservice.controller;
+import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.services.IGestionPost;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,18 +51,18 @@ public class PostController {
         return gestionPost.ApprovePost(idPost);
     }
 
-    @PutMapping("/toggleLikeDislike/{id}/{userId}")
+/*    @PutMapping("/toggleLikeDislike/{id}/{userId}")
     public Post toggleLikeDislike(@PathVariable("id") Long id, @PathVariable("userId") Long userId) {
         return gestionPost.toggleLikeDislike(id, userId);
-    }
+    }*/
     @GetMapping("/getByTopic/{topic}")
     public List<Post> getByTopic(@PathVariable("topic") Topic topic) {
         return gestionPost.getPostsByTopic(topic);
     }
-    @PutMapping("/report/{id}/{userId}")
+/*    @PutMapping("/report/{id}/{userId}")
     public Post reportPost(@PathVariable("id") Long id, @PathVariable("userId") Long userId) {
         return gestionPost.reportPost(id, userId);
-    }
+    }*/
     @GetMapping("/getByAuthor/{authorId}")
     public List<Post> getByAuthor(@PathVariable("authorId") Long authorId) {
         return gestionPost.getPostsByAuthor(authorId);

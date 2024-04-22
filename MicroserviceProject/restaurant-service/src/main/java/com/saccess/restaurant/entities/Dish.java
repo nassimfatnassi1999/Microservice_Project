@@ -1,5 +1,6 @@
 package com.saccess.restaurant.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +28,6 @@ public class Dish {
 
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
+    @JsonIgnore
     private Restaurant restaurant;
 }

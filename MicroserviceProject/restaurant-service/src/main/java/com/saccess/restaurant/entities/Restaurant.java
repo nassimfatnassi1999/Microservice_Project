@@ -1,5 +1,6 @@
 package com.saccess.restaurant.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,5 +44,6 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private Badge badge;
     @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
     private List<Dish> menu;
 }

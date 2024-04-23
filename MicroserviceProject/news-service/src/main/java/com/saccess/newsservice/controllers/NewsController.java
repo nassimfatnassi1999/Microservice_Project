@@ -25,7 +25,9 @@ public class NewsController {
 
     @GetMapping("/getAll")
     public List<News> getAllNews(){
-        return news_service.getAllNews();
+
+        //return news_service.getAllNews();
+        return news_service.getAllNewsOrderByDate();
     }
 
     @GetMapping("/get/{id}")

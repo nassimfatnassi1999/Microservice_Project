@@ -17,4 +17,6 @@ public interface IGestionNews {
 	public void deleteImageFromCloudinary(String imageUrl);
 	public String extractImageIdFromUrl(String imageUrl);
 	public List<UserDto> getallUsersFromYoussef();
+
+	public List<News> getAllNewsOrderByDate();
 }

@@ -20,6 +20,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/apiala/feedback")
 public class FeedBackController {
 

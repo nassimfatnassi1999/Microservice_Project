@@ -20,7 +20,8 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long FeedbackID;
-    private String Description;
+    private String title;
+    private String description;
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date CreatedAt;
     @DateTimeFormat(pattern = "YYYY-MM-DD")

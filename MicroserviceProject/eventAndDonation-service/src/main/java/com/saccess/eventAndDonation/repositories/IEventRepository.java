@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface IEventRepository extends JpaRepository<Event, Long> {
-    @Query("SELECT u FROM Event u WHERE u.name LIKE %:name% ")
-    List<Event> findByName(@Param("name") String name);
+    @Query("SELECT u FROM Event u WHERE u.title LIKE %:title% ")
+    List<Event> findBytitle(@Param("title") String title);
 }

@@ -94,7 +94,7 @@ public class GestionEventImpl implements IGestionEvent{
 
     @Override
     public List<Event> findByName(String name) {
-        return eventRepository.findByName(name);
+        return eventRepository.findBytitle(name);
     }
 
     @Override

@@ -3,20 +3,23 @@ package com.saccess.eventAndDonation.controllers;
 import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Donation;
 import com.saccess.eventAndDonation.entities.Event;
+import com.saccess.eventAndDonation.entities.TypeEvent;
 import com.saccess.eventAndDonation.service.IGestionEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/event")
-
+@RequestMapping("/apinoursine/event")
+@CrossOrigin("*")
 public class EventController {
 
     @Autowired
@@ -29,7 +32,7 @@ public class EventController {
         return gestionEvent.retrieveAllEvents();
     }
 
-    @PostMapping("/addEventaaaa")
+    @PostMapping("/addEventt")
     public Event addevent(@RequestBody Event event) {
 
         return gestionEvent.addEvent(event);
@@ -65,22 +68,36 @@ public class EventController {
     }
 
     @PostMapping("/addEvent")
-    public ResponseEntity<String> addEventWithImage(@RequestParam("name") String name,
-                                                   @RequestParam("topic") String topic,
-                                                   @RequestParam("user_id") Long userId,
-                                                   @RequestParam("image") MultipartFile imageFile) {
+    public ResponseEntity<String> addEventWithImage(@RequestParam("title") String title,
+                                                    @RequestParam("topic") String topic,
+                                                    @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                                    //@RequestParam("duration") int duration,
+                                                    @RequestParam("typeEvent") TypeEvent typeEvent,
+                                                    //@RequestParam("location") String location,
+                                                    @RequestParam("location") String location,
+                                                    //@RequestParam("image") Image_Event image,
+                                                    @RequestParam(value = "image", required = false) MultipartFile imageFile) {
         try {
             Event event = new Event();
-            event.setName(name);
+            event.setTitle(title);
             event.setTopic(topic);
-            event.setUser_id(userId);
+            event.setDate(date);
+            event.setLocation(location);
 
-            gestionEvent.addEventWithImage(event, imageFile);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Event ajoutée avec succès !");
+            if (!imageFile.isEmpty()) {
+                // Image is present, process it
+                gestionEvent.addEventWithImage(event, imageFile);
+            } else {
+                // No image uploaded, potentially allow saving without image
+                // eventServices.addEvent(event); // Assuming a method without image param
+            }
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("event ajoutée avec succès !");
         } catch (Exception e) {
-            e.printStackTrace(); // ou tout autre traitement d'erreur approprié
+            e.printStackTrace(); // Consider more specific exception handling
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'event.");
         }
+
     }
 }

@@ -20,7 +20,7 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_event;
-    private String name;
+    private String title;
     @Enumerated(EnumType.STRING)
     private TypeEvent typeEvent;
     @Column(nullable = false)
@@ -28,6 +28,7 @@ public class Event implements Serializable {
     @OneToOne(cascade = CascadeType.MERGE)
     private Image_Event image;
     private String location;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date date;
     // private List<Userdto> sponsorsList;
     private  Long user_id;

@@ -18,7 +18,7 @@ public class CloudinaryService_Event {
     Cloudinary cloudinary;
     public CloudinaryService_Event(){
         Map<String, String> valuesMap = new HashMap<>();
-        valuesMap.put("cloud_name", "noursine");
+        valuesMap.put("cloud_name", "docmlwlw2");
         valuesMap.put("api_key", "967611415747748");
         valuesMap.put("api_secret", "zjECP1HfQItu16E_8J0l1dU7F7c");
         cloudinary = new Cloudinary(valuesMap);

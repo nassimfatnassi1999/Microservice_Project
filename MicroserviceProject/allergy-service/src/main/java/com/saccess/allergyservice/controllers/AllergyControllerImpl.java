@@ -11,9 +11,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Allergy")
+@RequestMapping("/apiachref/Allergy")
 @CrossOrigin("*")
 @AllArgsConstructor
+
 public class AllergyControllerImpl {
 IGestionAllergy gestionAllergy;
     @GetMapping("/getallAllergy")
@@ -32,7 +33,8 @@ IGestionAllergy gestionAllergy;
     public Allergy AddAllergy(@RequestBody Allergy allergy){
         return gestionAllergy.addAllergy(allergy);
     }
-    @DeleteMapping("/deleteallergy/{id}")
+    //@CrossOrigin(origins = "http://localhost:4200")
+    @DeleteMapping("/delete/{id}")
     public void deleteallergy(@PathVariable("id") Long id_allergy){
         gestionAllergy.removeAllergy(id_allergy);
     }

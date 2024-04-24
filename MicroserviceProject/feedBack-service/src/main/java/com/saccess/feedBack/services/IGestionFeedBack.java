@@ -3,6 +3,7 @@ package com.saccess.feedBack.services;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
+import com.saccess.feedBack.entities.Type;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -18,4 +19,7 @@ public interface IGestionFeedBack {
     void removeFeedback(Long FeedbackID);
      Userdto findUserById(Long userid);
     List<Feedback> findByStatus(Status status);
+    List<Feedback> findByType(Type type);
+    void updateFeedbackDescription(Long feedbackId, String newDescription);
+    List<Feedback> findRecentlyUpdatedFeedbacks(int nbr);
 }

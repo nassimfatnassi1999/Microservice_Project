@@ -1,5 +1,6 @@
 package com.saccess.allergyservice.controllers;
 
+import com.saccess.allergyservice.dto.FullResponse;
 import com.saccess.allergyservice.dto.Userdto;
 import com.saccess.allergyservice.entities.Allergy;
 import com.saccess.allergyservice.entities.Level;
@@ -12,12 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/apiachref/Allergy")
-@CrossOrigin("*")
 @AllArgsConstructor
-
+@CrossOrigin("*")
 public class AllergyControllerImpl {
 IGestionAllergy gestionAllergy;
-    @GetMapping("/getallAllergy")
+    @GetMapping("/get")
     public List<Allergy> getAll(){
         return gestionAllergy.retrieveAllAllergy();
     }
@@ -25,11 +25,11 @@ IGestionAllergy gestionAllergy;
     public Allergy getAllergyById(@PathVariable("id") Long id_Allergy){
         return gestionAllergy.retrieveAllergy(id_Allergy);
     }
-    @PutMapping("/updateAllergy")
+    @PutMapping("/update")
     public Allergy updateAllergy(@RequestBody Allergy allergy){
         return gestionAllergy.updateAllergy(allergy);
     }
-    @PostMapping("/addAllergy")
+    @PostMapping("/add")
     public Allergy AddAllergy(@RequestBody Allergy allergy){
         return gestionAllergy.addAllergy(allergy);
     }
@@ -55,4 +55,10 @@ IGestionAllergy gestionAllergy;
     public int  getTotalAllergiesByDateRange(@PathVariable("datede") LocalDate datedebut,@PathVariable("datefin") LocalDate dateFin){
         return gestionAllergy.getTotalAllergiesByDateRange(datedebut,dateFin) ;
     }
+
+    @GetMapping("/getFullResponse/{id}")
+    public FullResponse getAllAllergybyUserid(@PathVariable("id") Long id){
+        return gestionAllergy.getUserAndAllergy(id);
+    }
+
 }

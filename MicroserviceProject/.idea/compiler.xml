@@ -12,6 +12,7 @@
         <module name="discoveryEureka" />
         <module name="restaurant-service" />
         <module name="forum-service" />
+        <module name="configServer" />
         <module name="eventAndDonation-service" />
         <module name="user-service" />
         <module name="gateway" />
@@ -27,6 +28,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="allergy-service" options="-parameters" />
       <module name="commande-service" options="-parameters" />
+      <module name="configServer" options="-parameters" />
       <module name="discoveryEureka" options="-parameters" />
       <module name="eventAndDonation-service" options="-parameters" />
       <module name="feedBack-service" options="-parameters" />

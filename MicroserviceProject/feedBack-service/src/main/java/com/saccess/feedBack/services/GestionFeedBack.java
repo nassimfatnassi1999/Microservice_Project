@@ -148,6 +148,7 @@ public class GestionFeedBack implements IGestionFeedBack {
 
         return filteredFeedbacks;
     }
+
     @Override
     public void updateFeedbackDescription(Long feedbackId, String newDescription) {
 

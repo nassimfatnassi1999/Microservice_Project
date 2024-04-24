@@ -24,5 +24,4 @@ public class Allergy implements Serializable {
       private  String dietry_restrictionsary;
       private LocalDate date;
       private Long id_user;
-
 }

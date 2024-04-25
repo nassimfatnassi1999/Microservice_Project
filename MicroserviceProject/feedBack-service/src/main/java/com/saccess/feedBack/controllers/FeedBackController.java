@@ -21,8 +21,9 @@ import java.util.NoSuchElementException;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/apiala/feedback")
-public class FeedBackController {
+//@CrossOrigin("*")
 
+public class FeedBackController {
     @Autowired
     IGestionFeedBack feedbackservice;
 

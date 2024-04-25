@@ -1,5 +1,6 @@
 package com.saccess.allergyservice.services;
 
+import com.saccess.allergyservice.dto.FullResponse;
 import com.saccess.allergyservice.dto.Userdto;
 import com.saccess.allergyservice.entities.Allergy;
 import com.saccess.allergyservice.entities.Level;
@@ -17,4 +18,5 @@ public interface IGestionAllergy {
     List<Allergy> getAllergyLevel(Level level);
     Userdto findUserById(Long userid);
     public int getTotalAllergiesByDateRange(LocalDate startDate, LocalDate endDate);
+    public FullResponse getUserAndAllergy(Long id);
 }

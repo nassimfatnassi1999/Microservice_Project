@@ -37,14 +37,15 @@ public class GestionEventImpl implements IGestionEvent{
 
     UserClient userClient;
     @Override
+    public Event retrieveEvent(Long id_event) {
+        return eventRepository.findById(id_event).orElse(null);
+    }
+    @Override
     public List<Event> retrieveAllEvents() {
         return eventRepository.findAll();
     }
 
-    @Override
-    public Event retrieveEvent(Long id_event) {
-        return eventRepository.findById(id_event).orElse(null);
-    }
+
 
     @Override
     public Event addEvent(Event event) {
@@ -55,11 +56,11 @@ public class GestionEventImpl implements IGestionEvent{
     @Override
     public void deleteEvent(Long id_event) {
 // Récupérer l'ID de l'image associée à la news
-        Optional<Event> newsOptional = eventRepository.findById(id_event);
-        if (newsOptional.isPresent()) {
-            Event news = newsOptional.get();
-            String imageURL = news.getImage().getImageURL();
-            Long imageId = news.getImage().getId();
+        Optional<Event> eventOptional = eventRepository.findById(id_event);
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            String imageURL = event.getImage().getImageURL();
+            Long imageId = event.getImage().getId();
             // Supprimer image from Cloudinary
             deleteImageFromCloudinary(imageURL);
             // Supprimer la news de la base de données
@@ -92,6 +93,10 @@ public class GestionEventImpl implements IGestionEvent{
         return user;
     }
 
+
+
+
+
     @Override
     public List<Event> findByName(String name) {
         return eventRepository.findBytitle(name);
@@ -113,9 +118,9 @@ public class GestionEventImpl implements IGestionEvent{
             // set image to news
             event.setImage(image);
             //configurer la date actuelle
-            LocalDate currentDate = LocalDate.now();
-            Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            event.setDate(date);
+           // LocalDate currentDate = LocalDate.now();
+            //Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+           // event.setDate(date);
             //Enregistrer la nouvelle dans la base de données
             eventRepository.save(event);
         } catch (IOException e) {

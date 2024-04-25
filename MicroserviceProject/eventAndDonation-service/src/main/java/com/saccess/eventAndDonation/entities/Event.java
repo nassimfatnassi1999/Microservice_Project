@@ -1,14 +1,13 @@
 package com.saccess.eventAndDonation.entities;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,14 +21,14 @@ public class Event implements Serializable {
     private Long id_event;
     private String title;
     @Enumerated(EnumType.STRING)
-    private TypeEvent typeEvent;
+    private Type type;
     @Column(nullable = false)
     private String topic;
     @OneToOne(cascade = CascadeType.MERGE)
     private Image_Event image;
     private String location;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private Date date;
+   // @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
     // private List<Userdto> sponsorsList;
     private  Long user_id;
 

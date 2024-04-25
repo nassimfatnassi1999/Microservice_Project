@@ -1,11 +1,9 @@
 package com.saccess.eventAndDonation.controllers;
 
 import com.saccess.eventAndDonation.dto.Userdto;
-import com.saccess.eventAndDonation.entities.Donation;
 import com.saccess.eventAndDonation.entities.Event;
-import com.saccess.eventAndDonation.entities.TypeEvent;
+import com.saccess.eventAndDonation.entities.Type;
 import com.saccess.eventAndDonation.service.IGestionEvent;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -13,9 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/apinoursine/event")
@@ -26,11 +23,7 @@ public class EventController {
     IGestionEvent gestionEvent;
 
 
-    @GetMapping("/getall")
-    public List<Event> getall() {
 
-        return gestionEvent.retrieveAllEvents();
-    }
 
     @PostMapping("/addEventt")
     public Event addevent(@RequestBody Event event) {
@@ -70,9 +63,9 @@ public class EventController {
     @PostMapping("/addEvent")
     public ResponseEntity<String> addEventWithImage(@RequestParam("title") String title,
                                                     @RequestParam("topic") String topic,
-                                                    @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                                    @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                                     //@RequestParam("duration") int duration,
-                                                    @RequestParam("typeEvent") TypeEvent typeEvent,
+                                                    @RequestParam("type") Type type,
                                                     //@RequestParam("location") String location,
                                                     @RequestParam("location") String location,
                                                     //@RequestParam("image") Image_Event image,
@@ -81,6 +74,7 @@ public class EventController {
             Event event = new Event();
             event.setTitle(title);
             event.setTopic(topic);
+            event.setType(type);
             event.setDate(date);
             event.setLocation(location);
 
@@ -93,11 +87,17 @@ public class EventController {
                 // eventServices.addEvent(event); // Assuming a method without image param
             }
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("event ajoutée avec succès !");
+            return ResponseEntity.status(HttpStatus.CREATED).body("event ajoute avec succes !");
         } catch (Exception e) {
             e.printStackTrace(); // Consider more specific exception handling
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'event.");
         }
 
+    }
+
+    @GetMapping("/getall")
+    public List<Event> getall() {
+
+        return gestionEvent.retrieveAllEvents();
     }
 }

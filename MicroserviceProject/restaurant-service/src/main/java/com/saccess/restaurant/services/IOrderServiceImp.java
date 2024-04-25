@@ -1,0 +1,39 @@
+package com.saccess.restaurant.services;
+
+import com.saccess.restaurant.entities.Order;
+import com.saccess.restaurant.repositories.IOrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+@Service
+public class IOrderServiceImp implements IOrderService{
+
+    @Autowired
+    IOrderRepository iOrderRepository ;
+
+    @Override
+    public List<Order> retrieveAllOrders() {
+        return iOrderRepository.findAll();
+    }
+
+    @Override
+    public Order createOrder(Order order) {
+        return iOrderRepository.save(order);
+    }
+
+    @Override
+    public Order updateOrder(Order order) {
+        return iOrderRepository.save(order);
+    }
+
+    @Override
+    public void deleteOrder(Long id) {
+        iOrderRepository.deleteById(id);
+    }
+
+    @Override
+    public Order retrieveOrder(Long id) {
+        return iOrderRepository.findById(id).orElse(null);
+    }
+}

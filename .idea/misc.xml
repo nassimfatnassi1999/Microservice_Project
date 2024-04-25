@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/MicroserviceProject/restaurant-service/pom.xml" />
         <option value="$PROJECT_DIR$/MicroserviceProject/recomandation-service/pom.xml" />
         <option value="$PROJECT_DIR$/MicroserviceProject/eventAndDonation-service/pom.xml" />
+        <option value="$PROJECT_DIR$/MicroserviceProject/allergy-service/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

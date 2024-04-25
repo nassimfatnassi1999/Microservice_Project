@@ -1,0 +1,14 @@
+# Define the Base Image
+FROM openjdk:21-slim
+
+# Utiliser une image Java de base
+FROM openjdk:11-jre-slim
+
+# Use the COPY instruction to copy your Spring Boot application's JAR file from your project directory
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+# Exposer le port sur lequel l'application Spring Boot écoute
+EXPOSE 9040
+
+# Commande pour exécuter l'application Spring Boot
+CMD ["java", "-jar", "app.jar"]

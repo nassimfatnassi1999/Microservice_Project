@@ -114,4 +114,14 @@ public class UserController {
         }
         return "You are not allowed";
     }
+    
+    ////usedbyAladin
+    @GetMapping("/getbyid/{id}")
+    public User getUserById(@PathVariable("id")Long id){
+        return userService.getUserById(id);
+    }
+    //used by nassim
+    @GetMapping("/getAllUsers")
+    public List<User> getAllUsers(){return userService.getAllUsers();}
+
 }

@@ -25,9 +25,22 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class GestionFeedBack implements IGestionFeedBack {
-    /*@Autowired
-    private JavaMailSender javaMailSender;
-    private void sendFeedBackNotification(User user) {
+    @Autowired
+    private JavaMailSender emailSender;
+    public  void sendFeedBackNotification(String toEmail) {
+        SimpleMailMessage message  = new SimpleMailMessage();
+        message.setFrom("*-----*-----*----*");
+        message.setSubject("Confirmation de réception de votre feedback");
+        message.setTo(toEmail);
+        message.setText( "\"Cher utilisateur,\\n\\n\" +\n" +
+                "                \"Nous avons bien reçu votre feedback et nous vous en remercions. Votre opinion est précieuse pour nous \" +\n" +
+                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" +\n" +
+                "                \"n'hésitez pas à nous contacter.\\n\\n\" +\n" +
+                "                \"Cordialement,\\n\" +\n" +
+                "                \"L'équipe de notre entreprise\"");
+        emailSender.send(message);
+    }
+   /* private void sendFeedBackNotification(User user) {
         String userEmail = user.getEmail();
         String subject = "Confirmation de réception de votre feedback";
         String message = "\"Cher utilisateur,\\n\\n\" +\n" +
@@ -63,8 +76,10 @@ public class GestionFeedBack implements IGestionFeedBack {
         LocalDate currentDate = LocalDate.now();
         Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         feedback.setCreatedAt(date);
-
+       String email= findUserById(feedback.getUser_id()).email();
+        sendFeedBackNotification(email);
         return feedBackRepository.save(feedback);
+
     }
 
     @Override

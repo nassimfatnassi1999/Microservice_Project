@@ -23,14 +23,14 @@ public class ScheduledService {
     private ImageRepository imgRepo;
     private IGestionNews newsService;
 
-   // @Scheduled(cron =" 10 * * * * *") //chaque 2 semaines (cron =" 0 0 0 */2 * *")
-    /*public void deletedAutomatically(){
+    /*@Scheduled(cron =" 10 * * * * *")
+    public void deletedAutomatically(){
         // Supprimer les news qui ont plus de 2 semaines
         Date twoWeeksAgo = new Date(System.currentTimeMillis() - (14 * 24 * 60 * 60 * 1000));
         Iterable<News> oldNews = newRepo.findByDateBefore(twoWeeksAgo);
         for (News news : oldNews) {
             Long newsId = news.getId();
-            log.info("news number : "+newsId);
+            //log.info("news number : "+newsId);
             newsService.deleteNews(newsId);
         }
     }*/

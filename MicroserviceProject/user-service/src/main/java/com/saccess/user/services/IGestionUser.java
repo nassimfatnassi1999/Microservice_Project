@@ -12,4 +12,5 @@ public interface IGestionUser {
     public void deleteUser(long userId);
     public boolean modifyUser(long userId, User user);
     public List<User> getAllUsers();
+    public void deleteUser(long usedId);
 }

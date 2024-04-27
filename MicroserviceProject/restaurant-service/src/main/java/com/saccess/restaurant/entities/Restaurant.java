@@ -1,5 +1,6 @@
 package com.saccess.restaurant.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,13 +13,19 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class Restaurant {
     public enum RestaurantCategory {
         Fast_Food,
         Cafe_Restaurant,
         Pizzeria,
         Cafe,
-        OTHER;
+        OTHER
+    }
+    public enum Badge {
+        Best_Seller,
+        Best_Donnor,
+        New
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +34,16 @@ public class Restaurant {
     private String logo;
     @Enumerated(EnumType.STRING)
     private RestaurantCategory category;
-    private Location location;
     private float averageRating;
+    @OneToOne
+    private Location location;
     private float waitTime;
     private boolean isEcoFriendly;
     private String contactInfo;
     private boolean delivery;
-
+    @Enumerated(EnumType.STRING)
+    private Badge badge;
     @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
     private List<Dish> menu;
 }

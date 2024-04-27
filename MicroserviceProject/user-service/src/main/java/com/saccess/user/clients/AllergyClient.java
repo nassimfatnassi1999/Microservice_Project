@@ -10,6 +10,6 @@ import java.util.List;
 
 @FeignClient(value = "ALLERGY-SERVICE")
 public interface AllergyClient {
-    @DeleteMapping("/deletebyuserid/{id}")
+    @DeleteMapping("/apiachref/Allergy/deletebyuserid/{id}")
     public void deleteallergybyuserid(@PathVariable("id") Long id_user);
 }

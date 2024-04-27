@@ -88,9 +88,12 @@ public class GestionAllergyImp implements IGestionAllergy{
 
         return  new FullAllergyUser(userdtos,allergies);
     }
-
+    @Override
     public void deleteAllegiesByUserId(long user_id){
-        allergyRepository.deleteAllById_user(user_id);
+        allergyRepository.deleteAll(allergyRepository.getAllAleergybyUserId(user_id));
+    }
+    public List<Dish> getRecomendation(){
+        dishes = new List<Dish>()
     }
 
 }

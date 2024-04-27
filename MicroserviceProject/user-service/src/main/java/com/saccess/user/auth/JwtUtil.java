@@ -33,7 +33,7 @@ public class JwtUtil {
     GestionUserImpl userService = new GestionUserImpl();
 
     private final String secret_key = "mysecretkeyisnotwhatyouthinkaboutbrodontworryaboutithahahahahahahahahahahahahaha";
-    private final long accessTokenValidity = 60*60*1000;
+    private final long accessTokenValidity = 10*60*60*1000;
 
     private final JwtParser jwtParser;
 

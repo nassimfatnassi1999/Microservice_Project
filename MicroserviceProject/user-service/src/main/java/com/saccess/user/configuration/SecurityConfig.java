@@ -13,6 +13,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -52,7 +53,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user/register_user","/user/authenticate_user").permitAll() // Always allowed
-                        .requestMatchers("/user/getbytoken").permitAll() // authentication only
+                        //.requestMatchers("/user/getbytoken").authenticated() // authentication only
                         .requestMatchers("/admin/**").hasRole("ADMIN") // needs admin role
                         .anyRequest().authenticated() // the rest requires authentication
                 ).sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

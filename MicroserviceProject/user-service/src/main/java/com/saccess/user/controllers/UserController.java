@@ -10,6 +10,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 //@CrossOrigin(origins = "*")
 @RequestMapping("/user")
-
+@AllArgsConstructor
 public class UserController {
 
     @Autowired
@@ -51,12 +53,12 @@ public class UserController {
                 map.put("status", 200);
                 map.put("message", "success");
                 map.put("token",token);
-                return new ResponseEntity<Object>(map, HttpStatus.FOUND);
+                return new ResponseEntity<Object>(map, HttpStatus.OK);
                 //return ResponseEntity.ok(token);
             }else {
-                map.put("status", 401);
+                map.put("status", 400);
                 map.put("message", "There was a problem");
-                return new ResponseEntity<Object>(map, HttpStatus.FOUND);
+                return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
             }
         }catch( BadCredentialsException ex){
             map.put("message", "Bad credentials");
@@ -79,17 +81,21 @@ public class UserController {
         // Check if the user with the same email already exists
         if (userService.getUserByEmail(user.getEmail()) != null) {
             // User with the same email already exists
-            map.put("message", "Your already have an account");
+            map.put("message", "You already have an account");
             map.put("status", 401);
             return new ResponseEntity<Object>(map, HttpStatus.BAD_REQUEST);
         }
 
         // add user to database
         userService.createUser(user);
+
         // Registration successful
-        // gotta return token
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        //Create token
+        String token = jwt.createToken(userDetails);
         map.put("message", "Account created successfully");
         map.put("status", 201);
+        map.put("token",token);
         return new ResponseEntity<Object>(map, HttpStatus.CREATED);
     }
 

@@ -1,6 +1,7 @@
 package com.saccess.allergyservice.services;
 
 import com.saccess.allergyservice.clients.UserClient;
+import com.saccess.allergyservice.dto.FullAllergyUser;
 import com.saccess.allergyservice.dto.FullResponse;
 import com.saccess.allergyservice.dto.Userdto;
 import com.saccess.allergyservice.entities.Allergy;
@@ -73,6 +74,23 @@ public class GestionAllergyImp implements IGestionAllergy{
         List<Allergy> allergies = allergyRepository.getAllAleergybyUserId(id);
 
         return new FullResponse(user,allergies);
+    }
+
+    @Override
+    public List<Userdto> getAllUsers() {
+        return userClient.getAllUsers();
+    }
+
+    @Override
+    public FullAllergyUser getAllUserAllergy() {
+        List<Userdto> userdtos=userClient.getAllUsers();
+        List<Allergy> allergies=allergyRepository.findAll();
+
+        return  new FullAllergyUser(userdtos,allergies);
+    }
+
+    public void deleteAllegiesByUserId(long user_id){
+        allergyRepository.deleteAllById_user(user_id);
     }
 
 }

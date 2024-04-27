@@ -1,7 +1,9 @@
 package com.saccess.user.services;
 
+import com.saccess.user.clients.AllergyClient;
 import com.saccess.user.entities.User;
 import com.saccess.user.repositories.UserRepoInterface;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import java.util.List;
 public class GestionUserImpl implements IGestionUser {
     @Autowired
     UserRepoInterface repo;
-
+    AllergyClient allergyClient;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -58,5 +60,12 @@ public class GestionUserImpl implements IGestionUser {
     @Override
     public List<User> getAllUsers() {
         return repo.findAll();
+    }
+    @Override
+    public void deleteUser(long usedId){
+        if(repo.findById(usedId).isPresent()){
+            repo.delete(getUserById(usedId));
+            allergyClient.deleteallergybyuserid(usedId);
+        }
     }
 }

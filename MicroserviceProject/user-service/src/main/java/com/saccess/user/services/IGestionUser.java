@@ -11,4 +11,5 @@ public interface IGestionUser {
     public boolean resetPassword(long userId,String newPassword);
 
     public List<User> getAllUsers();
+    public void deleteUser(long usedId);
 }

@@ -19,4 +19,6 @@ public interface IAllergyRepository extends JpaRepository<Allergy,Long> {
     public List<Allergy> getTotalAllergiesByDateRange(@Param("startDate") LocalDate startDate,@Param("endDate") LocalDate endDate);
      @Query("SELECT  a from Allergy a where a.id_user =:userid")
     public List<Allergy> getAllAleergybyUserId(@Param("userid") Long userid);
+    @Query("DELETE Allergy a where a.id_user =:userid")
+    public void deleteAllById_user(@Param("userid") Long userid);
 }

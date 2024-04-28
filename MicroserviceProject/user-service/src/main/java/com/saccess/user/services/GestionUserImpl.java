@@ -5,6 +5,9 @@ import com.saccess.user.entities.User;
 import com.saccess.user.repositories.UserRepoInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.List;
 public class GestionUserImpl implements IGestionUser {
     @Autowired
     UserRepoInterface repo;
+    @Autowired
     AllergyClient allergyClient;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -56,6 +60,15 @@ public class GestionUserImpl implements IGestionUser {
         }
         return false;
     }
+
+
+    @Override
+    public boolean modifyUser(long userId, User user) {
+        return false;
+    }
+
+
+
 
     @Override
     public List<User> getAllUsers() {

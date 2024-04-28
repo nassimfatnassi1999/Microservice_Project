@@ -110,8 +110,8 @@ public class GestionNewsImpl implements IGestionNews {
 			news.setDate(date);
 			newRepo.save(news);
 			//envoie notif to user
-			List<UserDto> allUsers = userClient.getAllUsers();
-			notif.sendNotification(news.getTitle(),allUsers);
+			//List<UserDto> allUsers = userClient.getAllUsers();
+			//notif.sendNotification(news.getTitle(),allUsers);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -119,6 +119,10 @@ public class GestionNewsImpl implements IGestionNews {
 
 	public List<UserDto> getallUsersFromYoussef(){
 		return userClient.getAllUsers();
+	}
+
+	public  List<News> getAllNewsOrderByDate(){
+		return  newRepo.findAllOrder();
 	}
 
 }

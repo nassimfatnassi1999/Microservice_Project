@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
-@RequestMapping("/api/news")
+//@CrossOrigin("*")
+@RequestMapping("/apinassim/news")
 @AllArgsConstructor
 public class NewsController {
     IGestionNews news_service;
@@ -25,7 +25,9 @@ public class NewsController {
 
     @GetMapping("/getAll")
     public List<News> getAllNews(){
-        return news_service.getAllNews();
+
+        //return news_service.getAllNews();
+        return news_service.getAllNewsOrderByDate();
     }
 
     @GetMapping("/get/{id}")

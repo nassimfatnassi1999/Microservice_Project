@@ -101,12 +101,22 @@ public class GestionAllergyImp implements IGestionAllergy{
     public void deleteAllegiesByUserId(long user_id){
         allergyRepository.deleteAll(allergyRepository.getAllAleergybyUserId(user_id));
     }
+    @Override
     public List<DishDto> getRecomendation(Long userId){
         Userdto user = userClient.getUserById(userId);
         List<String> preferences = Arrays.stream(user.preferences().split(",")).toList();
+        System.out.println("<---------------------------------------------->");
+        System.out.println("User Preferences :");
+        preferences.forEach(pref -> System.out.println(pref));
         List<DishDto> dishes = restaurantClient.getAllDishes().getBody();
+        dishes.sort(Comparator.comparingDouble(DishDto::Rating).reversed());
         List<DishDto> filtredDishes = new ArrayList<>(dishes.stream().filter(item -> preferences.stream().anyMatch(pref -> pref.contains(item.category()))).toList());
-        filtredDishes.sort(Comparator.comparingDouble(DishDto::Rating).reversed());
+        System.out.println("Filtred dishes:");
+        filtredDishes.forEach(pref -> System.out.println(pref));
+        if(filtredDishes.size() < 3){
+            System.out.println("low size");
+            filtredDishes.addAll(dishes);
+        }
         return filtredDishes;
     }
 

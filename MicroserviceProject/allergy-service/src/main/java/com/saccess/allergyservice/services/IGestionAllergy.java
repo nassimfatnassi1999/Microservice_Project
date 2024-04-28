@@ -1,5 +1,6 @@
 package com.saccess.allergyservice.services;
 
+import com.saccess.allergyservice.dto.DishDto;
 import com.saccess.allergyservice.dto.FullAllergyUser;
 import com.saccess.allergyservice.dto.FullResponse;
 import com.saccess.allergyservice.dto.Userdto;
@@ -24,4 +25,5 @@ public interface IGestionAllergy {
     public FullAllergyUser getAllUserAllergy();
     public void deleteAllegiesByUserId(long user_id);
 
+    List<DishDto> getRecomendation(Long userId);
 }

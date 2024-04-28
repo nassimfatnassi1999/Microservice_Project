@@ -1,6 +1,8 @@
 package com.saccess.allergyservice.services;
 
+import com.saccess.allergyservice.clients.RestaurantClient;
 import com.saccess.allergyservice.clients.UserClient;
+import com.saccess.allergyservice.dto.DishDto;
 import com.saccess.allergyservice.dto.FullAllergyUser;
 import com.saccess.allergyservice.dto.FullResponse;
 import com.saccess.allergyservice.dto.Userdto;
@@ -12,7 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @Service
 public class GestionAllergyImp implements IGestionAllergy{
@@ -20,6 +27,8 @@ public class GestionAllergyImp implements IGestionAllergy{
     IAllergyRepository allergyRepository;
     @Autowired
     UserClient userClient;
+    @Autowired
+    RestaurantClient restaurantClient;
 
     @Override
     public List<Allergy> retrieveAllAllergy() {
@@ -92,8 +101,13 @@ public class GestionAllergyImp implements IGestionAllergy{
     public void deleteAllegiesByUserId(long user_id){
         allergyRepository.deleteAll(allergyRepository.getAllAleergybyUserId(user_id));
     }
-    public List<Dish> getRecomendation(){
-        dishes = new List<Dish>()
+    public List<DishDto> getRecomendation(Long userId){
+        Userdto user = userClient.getUserById(userId);
+        List<String> preferences = Arrays.stream(user.preferences().split(",")).toList();
+        List<DishDto> dishes = restaurantClient.getAllDishes().getBody();
+        List<DishDto> filtredDishes = new ArrayList<>(dishes.stream().filter(item -> preferences.stream().anyMatch(pref -> pref.contains(item.category()))).toList());
+        filtredDishes.sort(Comparator.comparingDouble(DishDto::Rating).reversed());
+        return filtredDishes;
     }
 
 }

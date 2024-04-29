@@ -1,5 +1,6 @@
 package com.saccess.restaurant.controllers;
 
+import com.saccess.restaurant.entities.Dish;
 import com.saccess.restaurant.entities.Restaurant;
 import com.saccess.restaurant.services.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/restaurants")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class RestaurantController {
 
     @Autowired
@@ -53,5 +57,14 @@ public class RestaurantController {
     public ResponseEntity<Void> deleteRestaurant(@PathVariable Long id) {
         restaurantService.removeRestaurant(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}/dishes")
+    public ResponseEntity<List<Dish>> getDishesByRestaurantId(@PathVariable Long id) {
+        List<Dish> dishes = restaurantService.getDishesByRestaurantId(id);
+        if (dishes != null) {
+            return ResponseEntity.ok(dishes);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

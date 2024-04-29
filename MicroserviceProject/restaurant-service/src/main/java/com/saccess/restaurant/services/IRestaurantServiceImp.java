@@ -1,4 +1,5 @@
 package com.saccess.restaurant.services;
+import com.saccess.restaurant.entities.Dish;
 import com.saccess.restaurant.entities.Restaurant;
 import com.saccess.restaurant.repositories.IRestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,11 @@ public class IRestaurantServiceImp implements IRestaurantService {
     @Override
     public void removeRestaurant(Long id) {
         iRestaurantRepository.deleteById(id);
+    }
+    @Override
+    public List<Dish> getDishesByRestaurantId(Long id_restaurant) {
+        return iRestaurantRepository.findById(id_restaurant)
+                .map(Restaurant::getMenu)
+                .orElse(null);
     }
 }

@@ -69,7 +69,7 @@ public class GestionAllergyImp implements IGestionAllergy{
 
     @Override
     public FullResponse getUserAndAllergy(Long id) {
-        Userdto user = userClient.getUserById(id); //user jebneh
+       Userdto user = userClient.getUserById(id); //user jebneh
         List<Allergy> allergies = allergyRepository.getAllAleergybyUserId(id);
 
         return new FullResponse(user,allergies);

@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/apiachref/Allergy")
 @AllArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class AllergyControllerImpl {
 IGestionAllergy gestionAllergy;
     @GetMapping("/get")

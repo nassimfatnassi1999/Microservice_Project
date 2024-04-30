@@ -135,13 +135,6 @@ public class UserController {
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers(){return userService.getAllUsers();}
 
-    @GetMapping("/sendmail")
-    public void sendMail() {
-        User user = new User();
-        user.setFirstName("Youssef");
-        user.setEmail("ayedy40@gmail.com");
-        mailer.sendForgotPasswordEmail(user);
-    }
 
     @PostMapping("/resetpassword")
     public ResponseEntity resetPassword(@RequestBody ResetPasswordRequest request){
@@ -162,7 +155,8 @@ public class UserController {
     @PostMapping("/resetpasswordrequest")
     public ResponseEntity resetPasswordRequest(@RequestBody String email){
         User user = userService.getUserByEmail(email);
-        mailer.sendForgotPasswordEmail(user);
+        String token = jwt.createPasswordToken(userDetailsService.loadUserByUsername(email));
+        mailer.sendForgotPasswordEmail(user, token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

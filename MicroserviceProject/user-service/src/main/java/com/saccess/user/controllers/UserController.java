@@ -3,7 +3,9 @@ package com.saccess.user.controllers;
 import com.saccess.user.auth.JwtUtil;
 import com.saccess.user.dto.DeleteAccountRequest;
 import com.saccess.user.dto.LoginRequest;
+import com.saccess.user.dto.ResetPasswordRequest;
 import com.saccess.user.entities.User;
+import com.saccess.user.services.EmailService;
 import com.saccess.user.services.GestionUserImpl;
 import com.saccess.user.services.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,6 +32,9 @@ import java.util.Map;
 @RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
+
+    @Autowired
+    EmailService mailer;
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -121,13 +126,44 @@ public class UserController {
         return "You are not allowed";
     }
     
-    ////usedbyAladin
+
     @GetMapping("/getbyid/{id}")
     public User getUserById(@PathVariable("id")Long id){
         return userService.getUserById(id);
     }
-    //used by nassim
+
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers(){return userService.getAllUsers();}
+
+    @GetMapping("/sendmail")
+    public void sendMail() {
+        User user = new User();
+        user.setFirstName("Youssef");
+        user.setEmail("ayedy40@gmail.com");
+        mailer.sendForgotPasswordEmail(user);
+    }
+
+    @PostMapping("/resetpassword")
+    public ResponseEntity resetPassword(@RequestBody ResetPasswordRequest request){
+        if(jwt.isPasswordToken(request.getToken())){
+            String email;
+            try{
+                email = jwt.getEmailFromToken(request.getToken());
+            } catch (ExpiredJwtException | SignatureException | UnsupportedJwtException | MalformedJwtException exception){
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            User user = userService.getUserByEmail(email);
+            userService.resetPassword(user.getId(),request.getPassword());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/resetpasswordrequest")
+    public ResponseEntity resetPasswordRequest(@RequestBody String email){
+        User user = userService.getUserByEmail(email);
+        mailer.sendForgotPasswordEmail(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

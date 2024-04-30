@@ -25,6 +25,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -54,11 +55,27 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, secret_key)
                 .compact();
     }
+    public String createPasswordToken(UserDetails user) {
+        Claims claims = Jwts.claims().setSubject(user.getUsername());
+        claims.setAudience("password");
+        Date tokenCreateTime = new Date();
+        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MILLISECONDS.toMillis(1000*60*30));
+        return Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(tokenValidity)
+                .signWith(SignatureAlgorithm.HS256, secret_key)
+                .compact();
+    }
+
+    public boolean isPasswordToken(String token){
+        return Objects.equals(parseJwtClaims(token).getAudience(), "password");
+    }
 
     public String getEmailFromToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException{
         Claims c = parseJwtClaims(token);
         return c.getSubject();
     }
+
 
     private Claims parseJwtClaims(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
         return jwtParser.parseClaimsJws(token).getBody();

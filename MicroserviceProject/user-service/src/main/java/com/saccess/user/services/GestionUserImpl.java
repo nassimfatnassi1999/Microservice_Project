@@ -54,7 +54,8 @@ public class GestionUserImpl implements IGestionUser {
     public boolean resetPassword(long userId, String newPassword) {
         User user = repo.findById(userId).orElse(null);
         if (user != null) {
-            user.setPassword(newPassword);
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            user.setPassword(encodedPassword);
             repo.save(user);
             return true;
         }

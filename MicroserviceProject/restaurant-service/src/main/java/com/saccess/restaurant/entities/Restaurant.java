@@ -20,7 +20,8 @@ public class Restaurant {
         Cafe_Restaurant,
         Pizzeria,
         Cafe,
-        OTHER
+        OTHER,
+        MLAWI
     }
     public enum Badge {
         Best_Seller,

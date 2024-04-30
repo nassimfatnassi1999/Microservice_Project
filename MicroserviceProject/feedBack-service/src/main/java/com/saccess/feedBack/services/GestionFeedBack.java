@@ -40,25 +40,6 @@ public class GestionFeedBack implements IGestionFeedBack {
                 "                \"L'équipe de notre entreprise\"");
         emailSender.send(message);
     }
-   /* private void sendFeedBackNotification(User user) {
-        String userEmail = user.getEmail();
-        String subject = "Confirmation de réception de votre feedback";
-        String message = "\"Cher utilisateur,\\n\\n\" +\n" +
-                "                \"Nous avons bien reçu votre feedback et nous vous en remercions. Votre opinion est précieuse pour nous \" +\n" +
-                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" +\n" +
-                "                \"n'hésitez pas à nous contacter.\\n\\n\" +\n" +
-                "                \"Cordialement,\\n\" +\n" +
-                "                \"L'équipe de notre entreprise\"";
-
-        SimpleMailMessage emailMessage = new SimpleMailMessage();
-        emailMessage.setFrom("alaa.hamdi01@gmail.com");
-        emailMessage.setTo(userEmail);
-        emailMessage.setSubject(subject);
-        emailMessage.setText(message);
-
-        javaMailSender.send(emailMessage);
-       // System.out.println("E-mail de notification envoyé à : " + userEmail);
-    }*/
 
     @Autowired
     IFeedBackRepository feedBackRepository;
@@ -185,6 +166,11 @@ public class GestionFeedBack implements IGestionFeedBack {
         List<Feedback> updatedFeedbacks = feedbacks.subList(0, Math.min(nbr, feedbacks.size()));
 
         return updatedFeedbacks;
+    }
+
+    @Override
+    public List<Userdto> getAllUser() {
+        return userClient.getAllUser();
     }
 
 }

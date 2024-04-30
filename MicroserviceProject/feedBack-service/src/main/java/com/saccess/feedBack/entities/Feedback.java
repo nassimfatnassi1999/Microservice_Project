@@ -31,6 +31,7 @@ public class Feedback {
     @Enumerated(EnumType.STRING)
     private Type type;
     private  Long user_id;
+    private long id_restaurant;
 
 
 }

@@ -23,5 +23,6 @@ public interface IGestionFeedBack {
     List<Feedback> findByType(Type type);
     void updateFeedbackDescription(Long feedbackId, String newDescription);
     List<Feedback> findRecentlyUpdatedFeedbacks(int nbr);
+    public  List<Userdto> getAllUser();
 
 }

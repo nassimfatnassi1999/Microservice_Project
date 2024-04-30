@@ -21,7 +21,7 @@ import java.util.NoSuchElementException;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/apiala/feedback")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 
 public class FeedBackController {
     @Autowired
@@ -81,5 +81,9 @@ public class FeedBackController {
     @GetMapping("/getFeedBackByType/{type}")
     public List<Feedback> getFeedbacksByType(@PathVariable("type") Type type) {
         return feedbackservice.findByType(type);
+    }
+    @GetMapping("/getAllUsers")
+    public List<Userdto> getUserAll(){
+        return feedbackservice.getAllUser();
     }
 }

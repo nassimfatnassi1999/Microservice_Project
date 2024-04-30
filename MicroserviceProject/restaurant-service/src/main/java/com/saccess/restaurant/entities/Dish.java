@@ -1,17 +1,21 @@
 package com.saccess.restaurant.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +24,10 @@ public class Dish {
     private String description;
     private float price;
     private String photo;
-    private int id_menu;
     private String category;
 
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
+    @JsonIgnore
     private Restaurant restaurant;
 }

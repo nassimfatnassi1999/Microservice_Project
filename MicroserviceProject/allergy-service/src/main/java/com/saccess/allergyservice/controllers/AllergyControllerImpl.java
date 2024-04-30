@@ -1,5 +1,7 @@
 package com.saccess.allergyservice.controllers;
 
+import com.saccess.allergyservice.dto.DishDto;
+import com.saccess.allergyservice.dto.FullAllergyUser;
 import com.saccess.allergyservice.dto.FullResponse;
 import com.saccess.allergyservice.dto.Userdto;
 import com.saccess.allergyservice.entities.Allergy;
@@ -60,5 +62,16 @@ IGestionAllergy gestionAllergy;
     public FullResponse getAllAllergybyUserid(@PathVariable("id") Long id){
         return gestionAllergy.getUserAndAllergy(id);
     }
-
+    @GetMapping("/getAllUsers")
+    public List<Userdto> getAllUsers(){return gestionAllergy.getAllUsers();}
+    @GetMapping("/getAllUsersAllery")
+    public FullAllergyUser getAllUsersAllergy(){return gestionAllergy.getAllUserAllergy();}
+    @DeleteMapping("/deletebyuserid/{id}")
+    public void deleteallergybyuserid(@PathVariable("id") Long id_user){
+        gestionAllergy.deleteAllegiesByUserId(id_user);
+    }
+    @GetMapping("/getReccomanded/{id_user}")
+    public List<DishDto> getReccomanded(@PathVariable("id_user") Long id_user){
+        return gestionAllergy.getRecomendation(id_user);
+    }
 }

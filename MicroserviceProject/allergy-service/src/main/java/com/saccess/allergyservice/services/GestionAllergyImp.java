@@ -62,8 +62,10 @@ public class GestionAllergyImp implements IGestionAllergy{
     }
 
     @Override
-    public List<Allergy> getAllergyLevel(Level level) {
-        return allergyRepository.getAllergyByLevel(level);
+    public FullAllergyUser getAllergyLevel(Level level) {
+        List<Allergy>  allergies =allergyRepository.getAllergyByLevel(level);
+        List<Userdto> userdtos = userClient.getAllUsers();
+        return new FullAllergyUser(userdtos,allergies);
     }
 
     @Override

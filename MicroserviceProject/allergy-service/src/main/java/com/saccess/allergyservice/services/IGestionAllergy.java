@@ -17,7 +17,7 @@ public interface IGestionAllergy {
     public Allergy retrieveAllergy (Long id_Allergy);
     void removeAllergy(Long id_Allergy);
     Allergy getAllergyByname(String name);
-    List<Allergy> getAllergyLevel(Level level);
+    FullAllergyUser getAllergyLevel(Level level);
     Userdto findUserById(Long userid);
     public int getTotalAllergiesByDateRange(LocalDate startDate, LocalDate endDate);
     public FullResponse getUserAndAllergy(Long id);

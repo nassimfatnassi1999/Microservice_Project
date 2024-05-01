@@ -6,8 +6,6 @@ LABEL maintainer="fatnassihnifi.nassim@esprit.tn"
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 # Make port 8080 available to the world outside this container
-EXPOSE 9040
+EXPOSE 8099
 # Run app.jar when the container launches
 CMD ["java", "-jar", "app.jar"]
-
-

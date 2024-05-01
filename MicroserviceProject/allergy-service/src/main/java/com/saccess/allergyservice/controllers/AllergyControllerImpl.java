@@ -46,7 +46,7 @@ IGestionAllergy gestionAllergy;
         return gestionAllergy.getAllergyByname(name);
     }
     @GetMapping("/getAllergybyLevel/{level}")
-    public List<Allergy> getAllergyBylevel(@PathVariable("level")Level level){
+    public FullAllergyUser getAllergyBylevel(@PathVariable("level")Level level){
         return  gestionAllergy.getAllergyLevel(level);
     }
     @GetMapping("/getUserById/{id}")

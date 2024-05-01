@@ -1,6 +1,8 @@
 package com.saccess.feedBack.services;
 
 import com.saccess.feedBack.clients.UserClient;
+import com.saccess.feedBack.dto.FullRes;
+import com.saccess.feedBack.dto.Restodto;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
@@ -25,27 +27,21 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class GestionFeedBack implements IGestionFeedBack {
-    /*@Autowired
-    private JavaMailSender javaMailSender;
-    private void sendFeedBackNotification(User user) {
-        String userEmail = user.getEmail();
-        String subject = "Confirmation de réception de votre feedback";
-        String message = "\"Cher utilisateur,\\n\\n\" +\n" +
+    @Autowired
+    private JavaMailSender emailSender;
+    public  void sendFeedBackNotification(String toEmail) {
+        SimpleMailMessage message  = new SimpleMailMessage();
+        message.setFrom("*-----*-----*----*");
+        message.setSubject("Confirmation de réception de votre feedback");
+        message.setTo(toEmail);
+        message.setText( "\"Cher utilisateur,\\n\\n\" +\n" +
                 "                \"Nous avons bien reçu votre feedback et nous vous en remercions. Votre opinion est précieuse pour nous \" +\n" +
                 "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" +\n" +
                 "                \"n'hésitez pas à nous contacter.\\n\\n\" +\n" +
                 "                \"Cordialement,\\n\" +\n" +
-                "                \"L'équipe de notre entreprise\"";
-
-        SimpleMailMessage emailMessage = new SimpleMailMessage();
-        emailMessage.setFrom("alaa.hamdi01@gmail.com");
-        emailMessage.setTo(userEmail);
-        emailMessage.setSubject(subject);
-        emailMessage.setText(message);
-
-        javaMailSender.send(emailMessage);
-       // System.out.println("E-mail de notification envoyé à : " + userEmail);
-    }*/
+                "                \"L'équipe de notre entreprise\"");
+        emailSender.send(message);
+    }
 
     @Autowired
     IFeedBackRepository feedBackRepository;
@@ -59,12 +55,15 @@ public class GestionFeedBack implements IGestionFeedBack {
 
     @Transactional
     @Override
-    public Feedback addFeedBack(Feedback feedback) {
+    public Feedback addFeedBack(Feedback feedback,long id_rest) {
         LocalDate currentDate = LocalDate.now();
         Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         feedback.setCreatedAt(date);
-
+       String email= findUserById(feedback.getUser_id()).email();
+        sendFeedBackNotification(email);
+        feedback.setId_restaurant(id_rest);
         return feedBackRepository.save(feedback);
+
     }
 
     @Override
@@ -148,6 +147,7 @@ public class GestionFeedBack implements IGestionFeedBack {
 
         return filteredFeedbacks;
     }
+
     @Override
     public void updateFeedbackDescription(Long feedbackId, String newDescription) {
 
@@ -170,5 +170,17 @@ public class GestionFeedBack implements IGestionFeedBack {
 
         return updatedFeedbacks;
     }
+
+    @Override
+    public List<Userdto> getAllUser() {
+        return userClient.getAllUser();
+    }
+    @Override
+  public FullRes getUserAndFeedback(Long id) {
+        Userdto user = userClient.getUserById(id); //user recupéré
+       List<Feedback> feedbacks = feedBackRepository.getAllFeedbackbyUserId(id);
+        return new FullRes(feedbacks,user);
+
+   }
 
 }

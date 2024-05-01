@@ -1,5 +1,6 @@
 package com.saccess.feedBack.services;
 
+import com.saccess.feedBack.dto.FullRes;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public interface IGestionFeedBack {
     List<Feedback> retrieveAllFeedbacks();
-    Feedback addFeedBack(Feedback feedback);
-    Feedback updateFeedback(Feedback feedback);
+   Feedback addFeedBack(Feedback feedback,long id_rest);
+   Feedback updateFeedback(Feedback feedback);
     Feedback retrieveFeedback(Long FeedbackID);
     List<Feedback> findByDateCreation(Date creatDate);
     List<Feedback> findByMounthCreation(Date creatDate);
@@ -24,5 +25,6 @@ public interface IGestionFeedBack {
     void updateFeedbackDescription(Long feedbackId, String newDescription);
     List<Feedback> findRecentlyUpdatedFeedbacks(int nbr);
     public  List<Userdto> getAllUser();
+    public FullRes getUserAndFeedback(Long id);
 
 }

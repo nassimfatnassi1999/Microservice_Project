@@ -5,6 +5,7 @@ import com.saccess.feedBack.entities.Feedback;
 import java.util.List;
 
 public record FullRes(
- List<Feedback> feedbacks,List<Userdto> users,List<Restodto> restos
+ List<Feedback> feedbacks,
+ Userdto user
 ) {
 }

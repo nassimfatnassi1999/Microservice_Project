@@ -1,6 +1,8 @@
 package com.saccess.feedBack.services;
 
 import com.saccess.feedBack.clients.UserClient;
+import com.saccess.feedBack.dto.FullRes;
+import com.saccess.feedBack.dto.Restodto;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
@@ -53,12 +55,13 @@ public class GestionFeedBack implements IGestionFeedBack {
 
     @Transactional
     @Override
-    public Feedback addFeedBack(Feedback feedback) {
+    public Feedback addFeedBack(Feedback feedback,long id_rest) {
         LocalDate currentDate = LocalDate.now();
         Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         feedback.setCreatedAt(date);
        String email= findUserById(feedback.getUser_id()).email();
         sendFeedBackNotification(email);
+        feedback.setId_restaurant(id_rest);
         return feedBackRepository.save(feedback);
 
     }
@@ -172,5 +175,12 @@ public class GestionFeedBack implements IGestionFeedBack {
     public List<Userdto> getAllUser() {
         return userClient.getAllUser();
     }
+    @Override
+  public FullRes getUserAndFeedback(Long id) {
+        Userdto user = userClient.getUserById(id); //user recupéré
+       List<Feedback> feedbacks = feedBackRepository.getAllFeedbackbyUserId(id);
+        return new FullRes(feedbacks,user);
+
+   }
 
 }

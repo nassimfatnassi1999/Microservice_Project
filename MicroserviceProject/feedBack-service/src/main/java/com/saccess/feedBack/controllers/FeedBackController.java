@@ -1,5 +1,6 @@
 package com.saccess.feedBack.controllers;
 
+import com.saccess.feedBack.dto.UFeedback;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
@@ -28,16 +29,17 @@ public class FeedBackController {
     IGestionFeedBack feedbackservice;
 
     @GetMapping("/getall")
-    public List<Feedback> getall(){
-        return feedbackservice.retrieveAllFeedbacks();
+    public List<UFeedback> getall(){
+        return feedbackservice.retrieveAllFeedbacks().stream().map( f -> new UFeedback(f.getFeedbackID(), f.getTitle(), f.getDescription(), f.getCreatedAt(), f.getUpdatedAt(), f.getStatus(), f.getType(), f.getId_restaurant(), feedbackservice.findUserById(f.getUser_id()))).toList();
     }
     @GetMapping("/getbyid/{id}")
     public Feedback getById(@PathVariable("id") Long FeedbackID){
         return  feedbackservice.retrieveFeedback(FeedbackID);
     }
-    @PostMapping("/add")
-    public Feedback addFeedback(@RequestBody Feedback feedback){
-        return  feedbackservice.addFeedBack(feedback);
+    @PostMapping("/add/{id}")
+    public Feedback addFeedback(@RequestBody Feedback feedback, @PathVariable("id") long id){
+
+        return  feedbackservice.addFeedBack(feedback,id);
     }
     @PutMapping("/update")
     public Feedback update(@RequestBody Feedback feedback){
@@ -86,4 +88,6 @@ public class FeedBackController {
     public List<Userdto> getUserAll(){
         return feedbackservice.getAllUser();
     }
+
+
 }

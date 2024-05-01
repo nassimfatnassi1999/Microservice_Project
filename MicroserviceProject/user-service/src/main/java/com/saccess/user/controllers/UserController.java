@@ -143,13 +143,13 @@ public class UserController {
             try{
                 email = jwt.getEmailFromToken(request.getToken());
             } catch (ExpiredJwtException | SignatureException | UnsupportedJwtException | MalformedJwtException exception){
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             User user = userService.getUserByEmail(email);
             userService.resetPassword(user.getId(),request.getPassword());
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/resetpasswordrequest")

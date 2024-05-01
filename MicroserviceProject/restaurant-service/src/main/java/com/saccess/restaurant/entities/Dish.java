@@ -17,6 +17,16 @@ import jakarta.persistence.Id;
 @AllArgsConstructor
 @Table
 public class Dish {
+    public enum DishCategory {
+        Malfouf,
+        Mlawi,
+        Chapati,
+        Fricasse,
+        Crepe,
+        Pizza,
+        Makloub,
+        sandwich
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_dish;
@@ -24,10 +34,9 @@ public class Dish {
     private String description;
     private float price;
     private String photo;
-    private String category;
+    private DishCategory category;
 
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
-    @JsonIgnore
     private Restaurant restaurant;
 }

@@ -18,7 +18,7 @@ public class Restaurant {
     public enum RestaurantCategory {
         Fast_Food,
         Cafe_Restaurant,
-        Pizzeria,
+        Pizza,
         Cafe,
         OTHER,
         MLAWI

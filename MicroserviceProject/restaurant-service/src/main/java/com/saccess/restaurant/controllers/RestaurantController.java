@@ -4,12 +4,15 @@ import com.saccess.restaurant.entities.Dish;
 import com.saccess.restaurant.entities.Restaurant;
 import com.saccess.restaurant.services.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -21,8 +24,11 @@ public class RestaurantController {
     private IRestaurantService restaurantService;
 
     @GetMapping
-    public ResponseEntity<List<Restaurant>> getAllRestaurants() {
-        List<Restaurant> restaurants = restaurantService.retrieveAllRestaurants();
+    public ResponseEntity<Page<Restaurant>> getAllRestaurants(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Restaurant> restaurants = restaurantService.retrieveAllRestaurants(pageable);
         return ResponseEntity.ok(restaurants);
     }
 

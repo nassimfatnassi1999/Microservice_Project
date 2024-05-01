@@ -36,7 +36,7 @@ public class Dish {
     private String photo;
     private DishCategory category;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "id_restaurant")
     private Restaurant restaurant;
 }

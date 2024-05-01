@@ -2,9 +2,12 @@ package com.saccess.eventAndDonation.service;
 
 import com.cloudinary.utils.ObjectUtils;
 import com.saccess.eventAndDonation.clients.UserClient;
+import com.saccess.eventAndDonation.dto.FullEventUser;
+import com.saccess.eventAndDonation.dto.FullResponse;
 import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.entities.Image_Event;
+import com.saccess.eventAndDonation.entities.Type;
 import com.saccess.eventAndDonation.repositories.IEventRepository;
 import com.saccess.eventAndDonation.repositories.IImageRepository;
 import lombok.AllArgsConstructor;
@@ -14,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,11 +29,15 @@ public class GestionEventImpl implements IGestionEvent{
 
     IEventRepository eventRepository;
 
-    @Autowired
-    private CloudinaryService_Event cloudinaryServiceEventervice;
+
 
     @Autowired
     private IImageRepository imgrepo;
+
+    @Override
+    public void deleteEventsByUserId(long user_id){
+        eventRepository.deleteAll(eventRepository.getAllEventbyUserId(user_id));
+    }
 
 
     UserClient userClient;
@@ -77,6 +82,9 @@ public class GestionEventImpl implements IGestionEvent{
     public Event updateEvent(Long id, Event updatedvent) {
         Event E = eventRepository.findById(id).orElse(null);
         if (E != null) {
+            E.setType(updatedvent.getType());
+            E.setTitle(updatedvent.getTitle());
+            E.setImage(updatedvent.getImage());
             E.setDate(updatedvent.getDate());
             E.setLocation(updatedvent.getLocation());
             E.setTopic(updatedvent.getTopic());
@@ -89,17 +97,44 @@ public class GestionEventImpl implements IGestionEvent{
     }
     @Override
     public Userdto findUserById(Long userid){
-        var user = userClient.getUserById(userid);
-        return user;
+        return userClient.getUserById(userid);
+    }
+
+    @Override
+    public List<Event> getEventByType(Type type) {
+        return eventRepository.getEventByType(type);
     }
 
 
+    @Override
+    public List<Event> getEventByDate(LocalDate date) {
+        return eventRepository.getEventByDate(date);
+    }
+    @Override
+   public FullResponse getUserAndEvent(Long id) {
+        Userdto user = userClient.getUserById(id); //user jebneh
+        List<Event> events = eventRepository.getAllEventbyUserId(id);
 
+        return new FullResponse(user,events);
+    }
+
+    @Override
+    public FullEventUser getAllUserEvent() {
+        List<Userdto> userdtos=userClient.getAllUsers();
+        List<Event> events= eventRepository.findAll();
+
+        return  new FullEventUser(userdtos,events);
+    }
+
+    @Override
+    public List<Userdto> getAllUsers() {
+        return userClient.getAllUsers();
+    }
 
 
     @Override
-    public List<Event> findByName(String name) {
-        return eventRepository.findBytitle(name);
+    public List<Event> findEventByTitle(String title) {
+        return eventRepository.findBytitle(title);
     }
 
     @Override
@@ -109,18 +144,14 @@ public class GestionEventImpl implements IGestionEvent{
             Map uploadResult = cloudinaryService.upload(imageFile);
             // 5oudh l'URL de l'image from  Cloudinary
             String imageUrl = (String) uploadResult.get("url");
-            // Enregistrer le lien URL de l'image dans news
+            // Enregistrer le lien URL de l'image dans events
             Image_Event image = new Image_Event();
             image.setName(imageFile.getOriginalFilename());
             image.setImageURL(imageUrl);
             //save the image
             imgrepo.save(image);
-            // set image to news
+            // set image to events
             event.setImage(image);
-            //configurer la date actuelle
-           // LocalDate currentDate = LocalDate.now();
-            //Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-           // event.setDate(date);
             //Enregistrer la nouvelle dans la base de données
             eventRepository.save(event);
         } catch (IOException e) {

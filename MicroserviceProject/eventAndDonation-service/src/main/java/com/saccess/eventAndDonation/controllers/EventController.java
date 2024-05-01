@@ -1,5 +1,7 @@
 package com.saccess.eventAndDonation.controllers;
 
+import com.saccess.eventAndDonation.dto.FullEventUser;
+import com.saccess.eventAndDonation.dto.FullResponse;
 import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.entities.Type;
@@ -16,14 +18,33 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/apinoursine/event")
-//@CrossOrigin("*")
+@CrossOrigin("*")
 public class EventController {
 
     @Autowired
     IGestionEvent gestionEvent;
 
+    @GetMapping("/getAllUsers")
+    public List<Userdto> getAllUsers(){return gestionEvent.getAllUsers();}
 
-
+    @DeleteMapping("/deletebyuserid/{id}")
+    public void deleteEventsByUserId(@PathVariable("id") Long id_user){
+        gestionEvent.deleteEventsByUserId(id_user);
+    }
+    @GetMapping("/getAllUserEvent")
+    public FullEventUser getAllUserEvent(){return gestionEvent.getAllUserEvent();}
+    @GetMapping("/getEventByType/{type}")
+    public List<Event>  getEventByType(@PathVariable("type")Type type){
+        return gestionEvent.getEventByType(type);
+    }
+    @GetMapping("/getEventByDate/{date}")
+    public List<Event> getEventByDate(@PathVariable("date")LocalDate date){
+        return  gestionEvent.getEventByDate(date);
+    }
+    @GetMapping("/getFullResponse/{id}")
+    public FullResponse getUserAndEvent(@PathVariable("id") Long id){
+        return gestionEvent.getUserAndEvent(id);
+    }
 
     @PostMapping("/addEventt")
     public Event addevent(@RequestBody Event event) {
@@ -37,10 +58,11 @@ public class EventController {
         return gestionEvent.retrieveEvent(id);
     }
 
-    @PutMapping("/updateevent")
+    @PutMapping("/updateevent/{id}")
     public Event modifyEvent(@PathVariable("id") Long id, @RequestBody Event updatedevent) {
         return gestionEvent.updateEvent(id, updatedevent);
     }
+
     @DeleteMapping("/delete/{id}")
     public void deleteEvent(@PathVariable("id") Long id){
         gestionEvent.deleteEvent(id);
@@ -52,12 +74,12 @@ public class EventController {
     }
 
 
-    @GetMapping("/events/{name}")
+    @GetMapping("/findEventByTitle/{title}")
 
-    public List<Event> getByName(@PathVariable("name")String name) {
+    public List<Event> findEventByTitle(@PathVariable("title")String title) {
 
 
-        return gestionEvent.findByName(name);
+        return gestionEvent.findEventByTitle(title);
     }
 
     @PostMapping("/addEvent")

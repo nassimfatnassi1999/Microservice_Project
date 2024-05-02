@@ -2,6 +2,7 @@ package com.saccess.eventAndDonation.service;
 
 import com.saccess.eventAndDonation.dto.FullEventUser;
 import com.saccess.eventAndDonation.dto.FullResponse;
+import com.saccess.eventAndDonation.dto.UEvent;
 import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Donation;
 import com.saccess.eventAndDonation.entities.Event;

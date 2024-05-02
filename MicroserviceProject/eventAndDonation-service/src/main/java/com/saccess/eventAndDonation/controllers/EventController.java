@@ -2,6 +2,7 @@ package com.saccess.eventAndDonation.controllers;
 
 import com.saccess.eventAndDonation.dto.FullEventUser;
 import com.saccess.eventAndDonation.dto.FullResponse;
+import com.saccess.eventAndDonation.dto.UEvent;
 import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.entities.Type;
@@ -84,13 +85,11 @@ public class EventController {
 
     @PostMapping("/addEvent")
     public ResponseEntity<String> addEventWithImage(@RequestParam("title") String title,
+                                                    @RequestParam("id_user") Long id_user,
                                                     @RequestParam("topic") String topic,
                                                     @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-                                                    //@RequestParam("duration") int duration,
                                                     @RequestParam("type") Type type,
-                                                    //@RequestParam("location") String location,
                                                     @RequestParam("location") String location,
-                                                    //@RequestParam("image") Image_Event image,
                                                     @RequestParam(value = "image", required = false) MultipartFile imageFile) {
         try {
             Event event = new Event();
@@ -99,6 +98,7 @@ public class EventController {
             event.setType(type);
             event.setDate(date);
             event.setLocation(location);
+            event.setUser_id(id_user);
 
 
             if (!imageFile.isEmpty()) {
@@ -118,8 +118,18 @@ public class EventController {
     }
 
     @GetMapping("/getall")
-    public List<Event> getall() {
+    public List<UEvent> getall() {
+        List<Event> le = gestionEvent.retrieveAllEvents();
 
-        return gestionEvent.retrieveAllEvents();
+        return le.stream().map(event -> {
+            System.out.println(event.getUser_id());
+            return new UEvent(event.getId_event(),event.getTitle(),event.getType(),
+                event.getTopic(),
+                event.getImage(),
+                event.getLocation(),
+                event.getDate(),
+                gestionEvent.findUserById(event.getUser_id()));
+
+        }).toList();
     }
 }

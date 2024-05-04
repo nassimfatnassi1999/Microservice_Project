@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/apinoursine/event")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class EventController {
 
     @Autowired

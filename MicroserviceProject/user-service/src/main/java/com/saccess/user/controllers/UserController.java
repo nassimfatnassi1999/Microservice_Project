@@ -125,6 +125,12 @@ public class UserController {
         }
         return "You are not allowed";
     }
+
+    @DeleteMapping("/admin/delete_user/{id}")
+    public String AdminDeleteUser(@PathVariable("id") Long id){
+        userService.deleteUser(id);
+        return "User deleted";
+    }
     
 
     @GetMapping("/getbyid/{id}")
@@ -155,9 +161,22 @@ public class UserController {
     @PostMapping("/resetpasswordrequest")
     public ResponseEntity resetPasswordRequest(@RequestBody String email){
         User user = userService.getUserByEmail(email);
+        System.out.println("email: "+email);
+        System.out.println("user: "+user);
         String token = jwt.createPasswordToken(userDetailsService.loadUserByUsername(email));
+        System.out.println("token: "+token);
         mailer.sendForgotPasswordEmail(user, token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/admin/resetpassword")
+    public ResponseEntity adminResetPassword(@RequestBody Long id){
+        Map<String, Object> map = new HashMap<String, Object>();
+        User user = userService.getUserById(id);
+        System.out.println(user);
+        String token = jwt.createPasswordToken(userDetailsService.loadUserByUsername(user.getEmail()));
+        System.out.println(token);
+        map.put("token",token);
+        return new ResponseEntity<Object>(map, HttpStatus.OK);
+    }
 }

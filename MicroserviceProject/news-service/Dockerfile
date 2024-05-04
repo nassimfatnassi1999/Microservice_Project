@@ -1,7 +1,7 @@
 # Utiliser une image OpenJDK Runtime comme image parent
 FROM openjdk:17-jdk-alpine
-COPY target/eureka.jar .
+COPY target/news.jar .
 # Exposer le port sur lequel l'application va écouter
-EXPOSE 8090
+EXPOSE 9040
 # Commande pour exécuter l'application Spring Boot
-ENTRYPOINT ["java", "-jar", "eureka.jar"]
+ENTRYPOINT ["java", "-jar", "news.jar"]

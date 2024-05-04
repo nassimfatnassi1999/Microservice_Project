@@ -116,6 +116,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>news</finalName>
 	</build>
+	
 
 </project>

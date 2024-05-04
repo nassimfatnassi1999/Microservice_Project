@@ -3,6 +3,7 @@ package com.saccess.feedBack.services;
 import com.saccess.feedBack.clients.UserClient;
 import com.saccess.feedBack.dto.FullRes;
 import com.saccess.feedBack.dto.Restodto;
+import com.saccess.feedBack.dto.UFeedback;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -176,11 +178,12 @@ public class GestionFeedBack implements IGestionFeedBack {
         return userClient.getAllUser();
     }
     @Override
-  public FullRes getUserAndFeedback(Long id) {
-        Userdto user = userClient.getUserById(id); //user recupéré
-       List<Feedback> feedbacks = feedBackRepository.getAllFeedbackbyUserId(id);
-        return new FullRes(feedbacks,user);
+    public FullRes getUserAndFeedback(Long id) {
 
-   }
+            Userdto user = userClient.getUserById(id); //user atteint
+            List<Feedback> feedbacks = feedBackRepository.getAllFeedbackbyUserId(id);
+
+            return new FullRes(feedbacks,user);
+        }
 
 }

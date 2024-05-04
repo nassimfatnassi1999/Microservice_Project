@@ -1,18 +1,13 @@
 package com.saccess.eventAndDonation.entities;
 
-import java.io.Serializable;
-
-import com.saccess.eventAndDonation.Dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.tools.DocumentationTool;
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,13 +19,18 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_event;
-    private String name;
-    private String description;
-    private Date date;
-    private DocumentationTool.Location location;
-
-   // private List<UserDTO> sponsorsList;
-    private Long user_id;
+    private String title;
+    @Enumerated(EnumType.STRING)
+    private Type type;
+    @Column(nullable = false)
+    private String topic;
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Image_Event image;
+    private String location;
+   // @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+    // private List<Userdto> sponsorsList;
+    private  Long user_id;
 
 
 }

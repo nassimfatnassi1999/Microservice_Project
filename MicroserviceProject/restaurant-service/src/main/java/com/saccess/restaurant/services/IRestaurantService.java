@@ -12,6 +12,8 @@ public interface IRestaurantService {
     public void removeRestaurant(Long id_restaurant) ;
     public Restaurant retrieveRestaurant(Long id_restaurant) ;
     List<Dish> getDishesByRestaurantId(Long id_restaurant);
+    public Dish addDishToRestaurant(Long id, Dish dish) ;
 
-}
+
+    }
 

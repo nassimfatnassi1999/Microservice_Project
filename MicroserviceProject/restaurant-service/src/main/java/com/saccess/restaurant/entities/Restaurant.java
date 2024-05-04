@@ -44,7 +44,8 @@ public class Restaurant {
     private boolean delivery;
     @Enumerated(EnumType.STRING)
     private Badge badge;
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Dish> menu;
+
 }

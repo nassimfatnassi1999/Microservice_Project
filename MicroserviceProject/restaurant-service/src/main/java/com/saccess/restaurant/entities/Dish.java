@@ -10,6 +10,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -35,7 +38,8 @@ public class Dish {
     private float price;
     private String photo;
     private DishCategory category;
-
+    @ManyToOne
+    DishOrder dishes;
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
     private Restaurant restaurant;

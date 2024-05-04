@@ -1,8 +1,10 @@
 package com.saccess.restaurant.services;
 import com.saccess.restaurant.entities.Dish;
 import com.saccess.restaurant.entities.Restaurant;
+import com.saccess.restaurant.repositories.IDishRepository;
 import com.saccess.restaurant.repositories.IRestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 
@@ -12,6 +14,10 @@ public class IRestaurantServiceImp implements IRestaurantService {
 
     @Autowired
     private IRestaurantRepository iRestaurantRepository;
+    @Autowired
+
+    private IDishRepository iDishRepository;
+
 
     @Override
     public List<Restaurant> retrieveAllRestaurants() {
@@ -36,6 +42,13 @@ public class IRestaurantServiceImp implements IRestaurantService {
     @Override
     public void removeRestaurant(Long id) {
         iRestaurantRepository.deleteById(id);
+    }
+    public Dish addDishToRestaurant(Long id, Dish dish) {
+        Restaurant restaurant = iRestaurantRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with id " + id));
+
+        dish.setRestaurant(restaurant);
+        return iDishRepository.save(dish);
     }
     @Override
     public List<Dish> getDishesByRestaurantId(Long id_restaurant) {

@@ -1,5 +1,6 @@
 package com.saccess.restaurant.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,25 +19,23 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-public class Order {
+public class DishOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_order;
-    private String location;
-    private int quantity;
     private Float totalPrice;
-    @Enumerated(EnumType.STRING)
-    private Status status;
     private LocalDateTime orderTime;
-    private LocalDateTime deliveryTime;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
-    @ManyToMany
-    @JoinTable(
-            name = "order_dish",
-            joinColumns = @JoinColumn(name = "id_order"),
-            inverseJoinColumns = @JoinColumn(name = "id_dish")
-    )
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="dishes")
     private List<Dish> dishes;
+
+    @PrePersist
+    protected void onCreate() {
+        orderTime = LocalDateTime.now();
+    }
 }

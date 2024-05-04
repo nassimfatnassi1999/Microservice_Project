@@ -3,6 +3,7 @@ package com.saccess.restaurant.controllers;
 import com.saccess.restaurant.entities.Dish;
 import com.saccess.restaurant.entities.Restaurant;
 import com.saccess.restaurant.services.IRestaurantService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -52,7 +54,16 @@ public class RestaurantController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @PostMapping("/{id}/dishes")
+    public ResponseEntity<Dish> addDishToRestaurant(@PathVariable(value = "id") Long restaurantId,
+                                                    @Valid @RequestBody Dish dish) {
+        Dish createdDish = restaurantService.addDishToRestaurant(restaurantId, dish);
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(createdDish.getId_dish())
+                        .toUri())
+                .body(createdDish);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRestaurant(@PathVariable Long id) {
         restaurantService.removeRestaurant(id);

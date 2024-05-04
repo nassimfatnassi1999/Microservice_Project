@@ -5,8 +5,10 @@ import com.saccess.allergyservice.dto.FullAllergyUser;
 import com.saccess.allergyservice.dto.FullResponse;
 import com.saccess.allergyservice.dto.Userdto;
 import com.saccess.allergyservice.entities.Allergy;
+import com.saccess.allergyservice.entities.Contact;
 import com.saccess.allergyservice.entities.Level;
 import com.saccess.allergyservice.services.IGestionAllergy;
+import com.saccess.allergyservice.services.IGestionContact;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ import java.util.List;
 //@CrossOrigin("*")
 public class AllergyControllerImpl {
 IGestionAllergy gestionAllergy;
+IGestionContact gestionContact;
     @GetMapping("/get")
     public List<Allergy> getAll(){
         return gestionAllergy.retrieveAllAllergy();
@@ -41,10 +44,6 @@ IGestionAllergy gestionAllergy;
         gestionAllergy.removeAllergy(id_allergy);
     }
 
-    @GetMapping("/getAllergybyname/{name}")
-    public Allergy getAllergyByName(@PathVariable("name") String name){
-        return gestionAllergy.getAllergyByname(name);
-    }
     @GetMapping("/getAllergybyLevel/{level}")
     public FullAllergyUser getAllergyBylevel(@PathVariable("level")Level level){
         return  gestionAllergy.getAllergyLevel(level);
@@ -73,5 +72,17 @@ IGestionAllergy gestionAllergy;
     @GetMapping("/getReccomanded/{id_user}")
     public List<DishDto> getReccomanded(@PathVariable("id_user") Long id_user){
         return gestionAllergy.getRecomendation(id_user);
+    }
+    @PostMapping("/addContact")
+    public Contact Addcontact(@RequestBody Contact contact){
+        return gestionContact.addcontact(contact);
+    }
+    @DeleteMapping("/deletecontact/{id}")
+    public void deletecontact(@PathVariable("id") Long id_contact){
+        gestionContact.removeContact(id_contact);
+    }
+    @GetMapping("/getconatct")
+    public List<Contact> getAllConatct(){
+        return gestionContact.retrieveContact();
     }
 }

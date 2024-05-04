@@ -1,7 +1,9 @@
 package com.saccess.newsservice.controllers;
 
+import com.saccess.newsservice.dto.NewsDto;
 import com.saccess.newsservice.dto.UserDto;
 import com.saccess.newsservice.entities.News;
+import com.saccess.newsservice.entities.StatisticUserBadWord;
 import com.saccess.newsservice.services.IGestionNews;
 import com.saccess.newsservice.services.ScheduledService;
 import lombok.AllArgsConstructor;
@@ -77,5 +79,19 @@ public ResponseEntity<String> addNewsWithImage(@RequestParam("title") String tit
     public List<UserDto> getallUsersFromYoussef(){
         return news_service.getallUsersFromYoussef();
      }
+//*******************************************************************
+    @GetMapping("/getAllNewsWithUsers")
+    public List<NewsDto> getAllNewsWithUsers(){
+        return news_service.getAllNewsWithUsers();
+    }
+    //*****************************************
+    @PostMapping("/checkBadWord")
+    public Boolean checkBadWord(@RequestBody News news){
+        return news_service.checkBadWords(news.getComment(),news.getTitle());   }
 
+    //**************************************
+    @GetMapping("/getAllStat")
+    public List<StatisticUserBadWord> getAllStat(){
+        return news_service.getAllStat();
+    }
 }

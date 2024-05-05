@@ -36,12 +36,12 @@ public class GestionFeedBack implements IGestionFeedBack {
         message.setFrom("*-----*-----*----*");
         message.setSubject("Confirmation de réception de votre feedback");
         message.setTo(toEmail);
-        message.setText( "\"Cher utilisateur,\\n\\n\" +\n" +
-                "                \"Nous avons bien reçu votre feedback et nous vous en remercions. Votre opinion est précieuse pour nous \" +\n" +
-                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" +\n" +
-                "                \"n'hésitez pas à nous contacter.\\n\\n\" +\n" +
-                "                \"Cordialement,\\n\" +\n" +
-                "                \"L'équipe de notre entreprise\"");
+        message.setText( "\"Cher utilisateur,\" \n" +
+                "                \"Nous avons bien reçu votre feedback et nous vous en remercions. Votre opinion est précieuse pour nous \" \n" +
+                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" \n" +
+                "                \"n'hésitez pas à nous contacter.\"\n" +
+                "                \"Cordialement,\" \n" +
+                "                \"ESPREAT\"");
         emailSender.send(message);
     }
 

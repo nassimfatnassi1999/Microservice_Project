@@ -2,10 +2,13 @@ services:
   micro-news:
     image: micro-news
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://microserviceproject-micro-database-1:3306/news-service?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-      - eureka.client.serviceUrl.defaultZone=http://eurekaserver:8099/eureka
+      - MYSQL_HOST=microserviceproject-micro-database-1
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=news-service
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
     ports:
-      - 9040:9040
+      - "9040:9040"
     depends_on:
       - micro-eureka
       - micro-database
@@ -14,18 +17,22 @@ services:
 
   micro-eureka:
     image: micro-eureka
+    environment:
+      - EUREKA_HOST=micro-eureka
+      - SERVER_PORT=8099
     ports:
-      - 8099:8099
+      - "8099:8099"
     networks:
       - micro-network
 
   micro-database:
-    image: mysql
+    image: db-news
     environment:
+      - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_PASSWORD=root
     ports:
-      - 3307:3306
+      - "3307:3306"
     networks:
       - micro-network
 

@@ -1,7 +1,7 @@
-# Utilisation en conteneur
+# Utilisation de variables d'environnement pour configurer Eureka
 eureka:
   instance:
-    hostname: micro-eureka
+    hostname: localhost
   client:
     register-with-eureka: false
     fetch-registry: false

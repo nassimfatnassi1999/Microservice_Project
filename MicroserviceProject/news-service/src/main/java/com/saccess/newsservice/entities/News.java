@@ -23,7 +23,7 @@ public class News implements Serializable {
 	private Long id;
 	private String title;
 	private String comment;
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Image image;
 	@DateTimeFormat(pattern = "YYYY-MM-DD")
 	private Date date;

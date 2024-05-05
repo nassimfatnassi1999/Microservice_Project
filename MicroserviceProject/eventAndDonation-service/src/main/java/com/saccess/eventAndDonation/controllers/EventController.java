@@ -6,6 +6,7 @@ import com.saccess.eventAndDonation.dto.UEvent;
 import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.entities.Type;
+import com.saccess.eventAndDonation.service.BadWordsFilterService;
 import com.saccess.eventAndDonation.service.IGestionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,7 +25,15 @@ public class EventController {
 
     @Autowired
     IGestionEvent gestionEvent;
+    private BadWordsFilterService badWordsFilterService;
 
+    @PostMapping("/filter")
+    public String filterText(@RequestBody String text) {
+        if (badWordsFilterService.containsBadWords(text)) {
+            return badWordsFilterService.filterBadWords(text);
+        }
+        return text;
+    }
     @GetMapping("/getAllUsers")
     public List<Userdto> getAllUsers(){return gestionEvent.getAllUsers();}
 

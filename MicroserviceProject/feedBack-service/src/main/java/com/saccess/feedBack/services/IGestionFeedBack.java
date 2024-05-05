@@ -1,6 +1,7 @@
 package com.saccess.feedBack.services;
 
 import com.saccess.feedBack.dto.FullRes;
+import com.saccess.feedBack.dto.UFeedback;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;

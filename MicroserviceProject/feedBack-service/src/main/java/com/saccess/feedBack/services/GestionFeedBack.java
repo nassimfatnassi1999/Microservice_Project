@@ -3,6 +3,7 @@ package com.saccess.feedBack.services;
 import com.saccess.feedBack.clients.UserClient;
 import com.saccess.feedBack.dto.FullRes;
 import com.saccess.feedBack.dto.Restodto;
+import com.saccess.feedBack.dto.UFeedback;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
 import com.saccess.feedBack.entities.Status;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,12 +36,12 @@ public class GestionFeedBack implements IGestionFeedBack {
         message.setFrom("*-----*-----*----*");
         message.setSubject("Confirmation de réception de votre feedback");
         message.setTo(toEmail);
-        message.setText( "\"Cher utilisateur,\\n\\n\" +\n" +
-                "                \"Nous avons bien reçu votre feedback et nous vous en remercions. Votre opinion est précieuse pour nous \" +\n" +
-                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" +\n" +
-                "                \"n'hésitez pas à nous contacter.\\n\\n\" +\n" +
-                "                \"Cordialement,\\n\" +\n" +
-                "                \"L'équipe de notre entreprise\"");
+        message.setText( "\"Cher utilisateur,\" \n" +
+                "                \"Nous avons bien reçu votre feedback et nous vous en remercions. Votre opinion est précieuse pour nous \" \n" +
+                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" \n" +
+                "                \"n'hésitez pas à nous contacter.\"\n" +
+                "                \"Cordialement,\" \n" +
+                "                \"ESPREAT\"");
         emailSender.send(message);
     }
 
@@ -176,11 +178,12 @@ public class GestionFeedBack implements IGestionFeedBack {
         return userClient.getAllUser();
     }
     @Override
-  public FullRes getUserAndFeedback(Long id) {
-        Userdto user = userClient.getUserById(id); //user recupéré
-       List<Feedback> feedbacks = feedBackRepository.getAllFeedbackbyUserId(id);
-        return new FullRes(feedbacks,user);
+    public FullRes getUserAndFeedback(Long id) {
 
-   }
+            Userdto user = userClient.getUserById(id); //user atteint
+            List<Feedback> feedbacks = feedBackRepository.getAllFeedbackbyUserId(id);
+
+            return new FullRes(feedbacks,user);
+        }
 
 }

@@ -1,5 +1,6 @@
 package com.saccess.feedBack.controllers;
 
+import com.saccess.feedBack.dto.FullRes;
 import com.saccess.feedBack.dto.UFeedback;
 import com.saccess.feedBack.dto.Userdto;
 import com.saccess.feedBack.entities.Feedback;
@@ -87,6 +88,11 @@ public class FeedBackController {
     @GetMapping("/getAllUsers")
     public List<Userdto> getUserAll(){
         return feedbackservice.getAllUser();
+    }
+
+    @GetMapping("/getFullResponse/{id}")
+    public FullRes getUserAndFeedback(@PathVariable("id")long id) {
+        return feedbackservice.getUserAndFeedback(id);
     }
 
 

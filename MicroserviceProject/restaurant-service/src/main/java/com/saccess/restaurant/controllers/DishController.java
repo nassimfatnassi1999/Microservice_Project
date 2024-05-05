@@ -55,4 +55,17 @@ public class DishController {
         dishService.deleteDish(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}/increment-orders")
+    public ResponseEntity<Dish> incrementDishOrders(@PathVariable Long id, @RequestParam int incrementBy) {
+        Dish dish = dishService.retrieveDish(id);
+        if (dish == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Increment orders of the dish
+        dish.setOrders(dish.getOrders() + incrementBy);
+        dishService.updateDish(dish);
+
+        return ResponseEntity.ok(dish);
+    }
 }

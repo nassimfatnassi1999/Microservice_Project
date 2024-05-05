@@ -1,7 +1,10 @@
 package com.saccess.restaurant.controllers;
 
 import com.saccess.restaurant.entities.Dish;
+import com.saccess.restaurant.entities.DishOrder;
 import com.saccess.restaurant.entities.Restaurant;
+import com.saccess.restaurant.services.IDishService;
+import com.saccess.restaurant.services.IOrderService;
 import com.saccess.restaurant.services.IRestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class RestaurantController {
 
     @Autowired
     private IRestaurantService restaurantService;
+    private IDishService dishService;
+    private IOrderService orderService;
+
 
     @GetMapping
     public ResponseEntity<List<Restaurant>> getAllRestaurants() {
@@ -43,7 +49,15 @@ public class RestaurantController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/{id}/dishes/{category}")
+    public ResponseEntity<List<Dish>> getDishesByCategory(@PathVariable Long id, @PathVariable String category) {
+        List<Dish> dishes = restaurantService.getDishesByCategory(id, category);
+        if (dishes != null) {
+            return ResponseEntity.ok(dishes);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant restaurant) {
         restaurant.setId_restaurant(id);
@@ -77,5 +91,15 @@ public class RestaurantController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @PutMapping("/{id}/increment-orders")
+    public ResponseEntity<Restaurant> incrementTotalOrders(@PathVariable Long id) {
+        Restaurant restaurant = restaurantService.retrieveRestaurant(id);
+
+        // Increment total_orders of the restaurant
+        restaurant.setTotal_orders(restaurant.getTotal_orders()+1);
+        restaurantService.updateRestaurant(restaurant);
+
+        return ResponseEntity.ok(restaurant);
     }
 }

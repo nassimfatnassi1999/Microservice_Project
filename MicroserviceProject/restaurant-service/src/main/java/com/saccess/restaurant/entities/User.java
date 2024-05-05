@@ -21,6 +21,6 @@ public class User {
     private Long id_user;
     private String username;
 
-    @OneToMany(mappedBy = "user")
-    private List<DishOrder> orders;
+//    @OneToMany(mappedBy = "user")
+//    private List<DishOrder> orders;
 }

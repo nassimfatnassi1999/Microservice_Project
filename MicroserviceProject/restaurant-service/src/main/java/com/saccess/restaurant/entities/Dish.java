@@ -28,8 +28,31 @@ public class Dish {
         Crepe,
         Pizza,
         Makloub,
-        sandwich
-    }
+        Sandwich;
+
+        public boolean equalsIgnoreCase(String category) {
+            // Convert the provided category string to lowercase for case-insensitive comparison
+            String lowercaseCategory = category.toLowerCase();
+
+            // Iterate over each enum value and compare it with the lowercase provided category
+            for (DishCategory dishCategory : values()) {
+                // Convert each enum value to lowercase for case-insensitive comparison
+                String lowercaseEnumValue = dishCategory.name().toLowerCase();
+
+                // Check if the lowercase enum value matches the lowercase provided category
+                if (lowercaseEnumValue.equals(lowercaseCategory)) {
+                    return true; // Return true if a match is found
+                }
+            }
+
+            return false; // Return false if no match is found
+        }
+
+
+
+
+
+}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_dish;
@@ -37,10 +60,12 @@ public class Dish {
     private String description;
     private float price;
     private String photo;
+    private int orders;
     private DishCategory category;
     @ManyToOne
     DishOrder dishes;
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
     private Restaurant restaurant;
+
 }

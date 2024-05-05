@@ -15,5 +15,6 @@ public interface IRestaurantService {
     public Dish addDishToRestaurant(Long id, Dish dish) ;
 
 
-    }
+    List<Dish> getDishesByCategory(Long id, String category);
+}
 

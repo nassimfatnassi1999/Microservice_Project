@@ -36,6 +36,7 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private RestaurantCategory category;
     private float averageRating;
+    private  int total_orders;
     @OneToOne
     private Location location;
     private float waitTime;

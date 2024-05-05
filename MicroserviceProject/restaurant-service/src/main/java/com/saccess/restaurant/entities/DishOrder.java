@@ -26,9 +26,9 @@ public class DishOrder {
     private Float totalPrice;
     private LocalDateTime orderTime;
 
-    @ManyToOne
-    @JoinColumn(name = "id_user")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "id_user")
+   private long id_user;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="dishes")

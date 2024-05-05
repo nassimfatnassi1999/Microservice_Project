@@ -179,4 +179,14 @@ public class UserController {
         map.put("token",token);
         return new ResponseEntity<Object>(map, HttpStatus.OK);
     }
+
+    @PostMapping("/admin/getbytoken")
+    public ResponseEntity getAdminByToken(@RequestBody String token) {
+        String email = jwt.getEmailFromToken(token);
+        User user = userService.getUserByEmail(email);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name",user.getFirstName());
+        map.put("role","ADMIN");
+        return new ResponseEntity<Object>(map, HttpStatus.OK);
+    }
 }

@@ -6,17 +6,28 @@ import com.saccess.eventAndDonation.dto.UEvent;
 import com.saccess.eventAndDonation.dto.Userdto;
 import com.saccess.eventAndDonation.entities.Event;
 import com.saccess.eventAndDonation.entities.Type;
+import com.saccess.eventAndDonation.repositories.IEventRepository;
 import com.saccess.eventAndDonation.service.BadWordsFilterService;
 import com.saccess.eventAndDonation.service.IGestionEvent;
+import com.saccess.eventAndDonation.service.PdfGenerationService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/apinoursine/event")
@@ -26,13 +37,36 @@ public class EventController {
     @Autowired
     IGestionEvent gestionEvent;
     private BadWordsFilterService badWordsFilterService;
+    private PdfGenerationService pdfGenerationService;
 
+    IEventRepository eventRepository;
+
+
+    @GetMapping("/generatePdf/{eventId}")
+    public ResponseEntity<byte[]> generatePdf(@PathVariable Long eventId) {
+        // Récupérer l'événement à partir de la base de données
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {// Si l'événement est trouvé dans la base de données
+            Event event = eventOptional.get();
+            // Générer le PDF à partir de l'événement
+            ByteArrayOutputStream pdfStream = pdfGenerationService.generatePdf(event);
+            byte[] pdfBytes = pdfStream.toByteArray();
+            // Préparer la réponse HTTP avec le contenu PDF
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "event_details.pdf");
+            headers.setContentLength(pdfBytes.length);
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);// Retourner le PDF dans la réponse HTTP
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);// Retourner une réponse 404 Not Found
+        }
+    }
     @PostMapping("/filter")
     public String filterText(@RequestBody String text) {
-        if (badWordsFilterService.containsBadWords(text)) {
-            return badWordsFilterService.filterBadWords(text);
+        if (badWordsFilterService.containsBadWords(text)) {// Vérifier si le texte contient des mots inappropriés
+            return badWordsFilterService.filterBadWords(text);// Filtrer les mots inappropriés s'ils sont présents
         }
-        return text;
+        return text; // Retourner le texte original s'il ne contient pas de mots inappropriés
     }
     @GetMapping("/getAllUsers")
     public List<Userdto> getAllUsers(){return gestionEvent.getAllUsers();}
@@ -141,4 +175,7 @@ public class EventController {
 
         }).toList();
     }
+
+
+
 }

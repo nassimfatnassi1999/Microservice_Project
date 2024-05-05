@@ -170,6 +170,11 @@ public class GestionNewsImpl implements IGestionNews {
 		return statRepo.findAll();
 	}
 
+	@Override
+	public StatisticUserBadWord getStatByUser(Long user_id) {
+		return statRepo.getByIdUser(user_id);
+	}
+
 	private NewsDto convertToDto(News news, UserDto user) {
 		return new NewsDto(
 				news.getId(),

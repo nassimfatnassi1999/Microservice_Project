@@ -94,4 +94,11 @@ public ResponseEntity<String> addNewsWithImage(@RequestParam("title") String tit
     public List<StatisticUserBadWord> getAllStat(){
         return news_service.getAllStat();
     }
+    @GetMapping("/getStatByUser/{id}")
+    public StatisticUserBadWord getStatByUser(@PathVariable("id") Long user_id){
+        return news_service.getStatByUser(user_id);
+    }
+
+
+
 }

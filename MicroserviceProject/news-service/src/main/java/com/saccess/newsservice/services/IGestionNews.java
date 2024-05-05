@@ -27,4 +27,6 @@ public interface IGestionNews {
 	public Boolean checkBadWords(String comment,String title);
 
 	public List<StatisticUserBadWord> getAllStat();
+
+	public StatisticUserBadWord getStatByUser(Long user_id);
 }

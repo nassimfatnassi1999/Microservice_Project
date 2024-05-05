@@ -20,6 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_user;
     private String username;
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<DishOrder> orders;
 }

@@ -1,6 +1,7 @@
 package com.saccess.restaurant.services;
 
-import com.saccess.restaurant.entities.Order;
+import com.saccess.restaurant.entities.Dish;
+import com.saccess.restaurant.entities.DishOrder;
 import com.saccess.restaurant.repositories.IOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,17 +14,17 @@ public class IOrderServiceImp implements IOrderService{
     IOrderRepository iOrderRepository ;
 
     @Override
-    public List<Order> retrieveAllOrders() {
+    public List<DishOrder> retrieveAllOrders() {
         return iOrderRepository.findAll();
     }
 
     @Override
-    public Order createOrder(Order order) {
+    public DishOrder createOrder(DishOrder order) {
         return iOrderRepository.save(order);
     }
 
     @Override
-    public Order updateOrder(Order order) {
+    public DishOrder updateOrder(DishOrder order) {
         return iOrderRepository.save(order);
     }
 
@@ -33,7 +34,7 @@ public class IOrderServiceImp implements IOrderService{
     }
 
     @Override
-    public Order retrieveOrder(Long id) {
+    public DishOrder retrieveOrder(Long id) {
         return iOrderRepository.findById(id).orElse(null);
     }
 }

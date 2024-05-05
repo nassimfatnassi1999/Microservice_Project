@@ -7,4 +7,5 @@ public record DishDTO(
         double price,
         String photo,
         String category
+
 ) {}

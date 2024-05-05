@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/dishes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DishController {
 
     @Autowired
@@ -53,5 +54,18 @@ public class DishController {
     public ResponseEntity<Void> deleteDish(@PathVariable Long id) {
         dishService.deleteDish(id);
         return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/{id}/increment-orders")
+    public ResponseEntity<Dish> incrementDishOrders(@PathVariable Long id, @RequestParam int incrementBy) {
+        Dish dish = dishService.retrieveDish(id);
+        if (dish == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Increment orders of the dish
+        dish.setOrders(dish.getOrders() + incrementBy);
+        dishService.updateDish(dish);
+
+        return ResponseEntity.ok(dish);
     }
 }

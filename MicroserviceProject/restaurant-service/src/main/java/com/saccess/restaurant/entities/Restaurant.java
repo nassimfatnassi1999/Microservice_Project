@@ -18,9 +18,10 @@ public class Restaurant {
     public enum RestaurantCategory {
         Fast_Food,
         Cafe_Restaurant,
-        Pizzeria,
+        Pizza,
         Cafe,
-        OTHER
+        OTHER,
+        MLAWI
     }
     public enum Badge {
         Best_Seller,
@@ -35,6 +36,7 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private RestaurantCategory category;
     private float averageRating;
+    private  int total_orders;
     @OneToOne
     private Location location;
     private float waitTime;
@@ -43,7 +45,8 @@ public class Restaurant {
     private boolean delivery;
     @Enumerated(EnumType.STRING)
     private Badge badge;
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Dish> menu;
+
 }

@@ -1,6 +1,6 @@
 package com.saccess.restaurant.controllers;
 
-import com.saccess.restaurant.entities.Order;
+import com.saccess.restaurant.entities.DishOrder;
 import com.saccess.restaurant.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,26 +11,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@CrossOrigin(origins = "http://localhost:4200")
 public class OrderController {
 
     @Autowired
     private IOrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.retrieveAllOrders();
+    public ResponseEntity<List<DishOrder>> getAllOrders() {
+        List<DishOrder> orders = orderService.retrieveAllOrders();
         return ResponseEntity.ok(orders);
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.createOrder(order);
+    public ResponseEntity<DishOrder> createOrder(@RequestBody DishOrder order) {
+        DishOrder createdOrder = orderService.createOrder(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Order order = orderService.retrieveOrder(id);
+    public ResponseEntity<DishOrder> getOrderById(@PathVariable Long id) {
+        DishOrder order = orderService.retrieveOrder(id);
         if (order != null) {
             return ResponseEntity.ok(order);
         } else {
@@ -39,9 +40,9 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
+    public ResponseEntity<DishOrder> updateOrder(@PathVariable Long id, @RequestBody DishOrder order) {
         order.setId_order(id);
-        Order updatedOrder = orderService.updateOrder(order);
+        DishOrder updatedOrder = orderService.updateOrder(order);
         if (updatedOrder != null) {
             return ResponseEntity.ok(updatedOrder);
         } else {

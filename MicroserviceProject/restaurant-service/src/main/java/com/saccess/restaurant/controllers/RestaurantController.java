@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/restaurants")
-@CrossOrigin(origins = "http://localhost:4200")
-
+@RequestMapping("/restaurant/restaurants")
 public class RestaurantController {
 
     @Autowired

@@ -24,7 +24,6 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "http://localhost:4200")
 public class FileUploadController {
 
     @PostMapping(value = "simple-form-upload-mvc", consumes = MULTIPART_FORM_DATA_VALUE)

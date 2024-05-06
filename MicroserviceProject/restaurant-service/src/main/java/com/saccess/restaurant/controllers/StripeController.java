@@ -13,9 +13,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 
 @RestController
-@RequestMapping(value = "/api")
-@CrossOrigin(origins = "http://localhost:4200")
-
+@RequestMapping(value = "/restaurant/api")
 public class StripeController {
     // create a Gson object
     private static Gson gson = new Gson();

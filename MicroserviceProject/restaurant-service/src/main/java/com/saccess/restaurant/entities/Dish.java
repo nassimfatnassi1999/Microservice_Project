@@ -61,9 +61,12 @@ public class Dish {
     private float price;
     private String photo;
     private int orders;
+    @Enumerated(EnumType.STRING)
     private DishCategory category;
+    @JsonIgnore
     @ManyToOne
     DishOrder dishes;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
     private Restaurant restaurant;

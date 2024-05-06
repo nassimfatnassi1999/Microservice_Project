@@ -23,6 +23,7 @@ public class Report implements Serializable {
     private LocalDate reportDate ;
     private Long signalantId;
     @ManyToOne
+
     @JsonIgnore
     Post post;
 }

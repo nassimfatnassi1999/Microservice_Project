@@ -10,32 +10,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class GestionReportImpl implements IGestionReport{
+public class GestionReportImpl implements IGestionReport {
     @Autowired
     IReportRepository reportRep;
     @Autowired
     IPostRepository postRep;
 
-    @Override
-    public Report retreiveReport(Long idReport) {
-        return reportRep.findById(idReport).get();
-    }
+
 
     @Override
     public List<Report> retrieveAllReport() {
         return reportRep.findAll();
     }
-
-    @Override
-    public Report addReport(Report report) {
-        return reportRep.save(report);
-    }
-
-    @Override
-    public Report updateReport(Report report) {
-        return reportRep.save(report);
-    }
-
     @Override
     public void removeReport(Long idReport) {
         reportRep.deleteById(idReport);
@@ -47,11 +33,45 @@ public class GestionReportImpl implements IGestionReport{
         if (!postRep.existsById(idPost)) {
             throw new RuntimeException("Post with ID " + idPost + " does not exist.");
         }
-        Post post= postRep.findById(idPost).get();
+        Post post = postRep.findById(idPost).get();
         report.setPost(post);
         report.setSignalantId(userId);
         report.setReportDate(LocalDate.now());
         return reportRep.save(report);
     }
+    @Override
+    public Report retreiveReport(Long idReport) {
+        return reportRep.findById(idReport).get();
+    }
+    @Override
+    public Report addReport(Report report) {
+        return reportRep.save(report);
+    }
+
+    @Override
+    public Report updateReport(Report report) {
+        return reportRep.save(report);
+    }
+
+
+
+    @Override
+    public int getReportsCountForPost(Long postId) {
+        return reportRep.countReportsByPostId(postId);
+    }
+
+    @Override
+    public boolean isReportedByUser(Long postId, Long userId) {
+        return reportRep.existsBySignalantIdAndPostId(userId, postId);
+    }
+
+    @Override
+    public Long findReportIdByPostIdAndUserId(Long postId, Long userId) {
+        return reportRep.findReportIdByPostIdAndSignalantId(postId, userId);
+    }
 }
+
+
+
+
 

@@ -1,5 +1,6 @@
 package com.saccess.forumservice.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +24,14 @@ public class CommentairePost implements Serializable {
     private Long idComm ;
     private String contentComm ;
     private Long auteurId;
-    private LocalDate creationDateComm ;
+    private LocalDateTime creationDateComm ;
+    private String photoComm;
     @ElementCollection
     private List<Long> commLikedBy = new ArrayList<>();
     @ElementCollection
     private List<Long> commDislikedBy = new ArrayList<>();
     @ManyToOne
+            @JsonIgnore
     Post postC;
 }
 

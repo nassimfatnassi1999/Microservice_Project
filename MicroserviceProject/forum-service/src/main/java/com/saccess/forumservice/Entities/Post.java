@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +26,10 @@ public class Post implements Serializable{
     private Long idPost ;
     private String titlePost;
     private String contentPost ;
-    private LocalDate creationDatePost ;
+    private LocalDateTime creationDatePost ;
     private Long auteurId;
-    private boolean isApproved;
+    private boolean isApproved = true;
+    private String photoPost;
     @Enumerated(EnumType.STRING)
     private Topic topic;
     @ElementCollection
@@ -37,6 +39,7 @@ public class Post implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     private List<Report> reports= new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "postC")
+    @JsonIgnore
     private List<CommentairePost> commentairePosts = new ArrayList<>();
 
 }

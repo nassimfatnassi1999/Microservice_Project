@@ -3,6 +3,10 @@ package com.saccess.forumservice.services;
 import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.Repository.IPostRepository;
+import com.saccess.forumservice.clients.UserClient;
+import com.saccess.forumservice.dto.FullResponse;
+import com.saccess.forumservice.dto.UPost;
+import com.saccess.forumservice.dto.Userdto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,8 @@ import java.util.Optional;
 public class GestionPostImpl implements IGestionPost {
     @Autowired
     IPostRepository postRep;
+    @Autowired
+    UserClient userClient;
 
 
     @Override
@@ -32,7 +38,14 @@ public class GestionPostImpl implements IGestionPost {
         return postRep.findByIsApprovedTrueOrderByCreationDatePostDesc();
     }
 
-
+    @Override
+    public List<UPost> retrieveAllPostsWithUser() {
+        List<Post> posts =  postRep.findByIsApprovedTrueOrderByCreationDatePostDesc();
+        List<UPost> posts1 = posts.stream().map(post -> {
+            return new UPost(post.getIdPost(),post.getTitlePost(),post.getContentPost(),post.getCreationDatePost(),post.getAuteurId(),post.isApproved(),post.getPhotoPost(),post.getTopic(),userClient.getUserById(post.getAuteurId()));
+        }).toList();
+        return posts1;
+    }
 
     @Override
     public Post updatePost(Post post) {
@@ -234,6 +247,16 @@ public class GestionPostImpl implements IGestionPost {
         return postRep.countActiveUsers();
     }
 
+    @Override
+    public FullResponse getUserAndPost(Long id) {
+        Userdto user = userClient.getUserById(id); //user jebneh
+        List<Post> posts = postRep.findByAuteurId(id);
 
+        return new FullResponse(user,posts);
+    }
+    @Override
+    public Userdto findUserById(Long userid) {
+        return userClient.getUserById(userid);
+    }
 
 }

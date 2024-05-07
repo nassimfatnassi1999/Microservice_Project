@@ -9,6 +9,6 @@ import java.util.List;
 
 @FeignClient(value = "RESTAURANT-SERVICE")
 public interface RestaurantClient {
-    @GetMapping("/dishes")
+    @GetMapping("/restaurant/dishes")
     public ResponseEntity<List<DishDto>> getAllDishes();
 }

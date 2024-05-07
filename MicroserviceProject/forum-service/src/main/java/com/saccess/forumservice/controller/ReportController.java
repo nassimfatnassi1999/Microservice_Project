@@ -4,9 +4,9 @@ import com.saccess.forumservice.services.IGestionReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
-@RequestMapping("/Report")
+@RequestMapping("/api/Report")
 public class ReportController {
     @Autowired
     IGestionReport gestionReport;

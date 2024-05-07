@@ -2,6 +2,9 @@ package com.saccess.forumservice.services;
 
 import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
+import com.saccess.forumservice.dto.FullResponse;
+import com.saccess.forumservice.dto.UPost;
+import com.saccess.forumservice.dto.Userdto;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -11,6 +14,7 @@ public interface IGestionPost {
     Post retreivePost(Long idPost);
     //    Post retreiveApprovedPost(Long idPost);
     List<Post> retrieveAllPosts();
+    public List<UPost> retrieveAllPostsWithUser();
     public List<Post> getAllApprovedPostsOrderByDateCreationDesc();
     Post addPost(Post post);
     Post updatePost(Post post);
@@ -36,4 +40,7 @@ boolean isPostLikedByUser(Long postId, Long userId);
 
     boolean isPostDeslikedByUser(Long postId, Long userId);
     Long getActiveMembersPost();
+ FullResponse getUserAndPost(Long id);
+ Userdto findUserById(Long userid);
+
 }

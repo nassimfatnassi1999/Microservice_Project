@@ -106,11 +106,14 @@ public class GestionAllergyImp implements IGestionAllergy{
     @Override
     public List<DishDto> getRecomendation(Long userId){
         Userdto user = userClient.getUserById(userId);
+        List<Allergy> allergies = allergyRepository.getAllAleergybyUserId(userId);
         List<String> preferences = Arrays.stream(user.preferences().split(",")).toList();
         System.out.println("<---------------------------------------------->");
         System.out.println("User Preferences :");
-        preferences.forEach(pref -> System.out.println(pref));
+        preferences.forEach(System.out::println);
         List<DishDto> dishes = restaurantClient.getAllDishes().getBody();
+        System.out.println("All dishes:");
+        dishes.forEach(System.out::println);
         dishes.sort(Comparator.comparingDouble(DishDto::Rating).reversed());
         List<DishDto> filtredDishes = new ArrayList<>(dishes.stream().filter(item -> preferences.stream().anyMatch(pref -> pref.contains(item.category()))).toList());
         System.out.println("Filtred dishes:");
@@ -119,7 +122,10 @@ public class GestionAllergyImp implements IGestionAllergy{
             System.out.println("low size");
             filtredDishes.addAll(dishes);
         }
-        return filtredDishes;
+        List<DishDto> finalList = filtredDishes.stream().filter(item -> Arrays.stream(item.description().split(" ")).noneMatch(ing -> allergies.stream().anyMatch(allergy -> allergy.getDietry_restrictionsary().equals(ing)))).toList();
+        System.out.println("Final list dishes:");
+        finalList.forEach(pref -> System.out.println(pref));
+        return finalList;
     }
 
 }

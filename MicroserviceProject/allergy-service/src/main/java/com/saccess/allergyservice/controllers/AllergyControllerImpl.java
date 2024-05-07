@@ -69,7 +69,7 @@ IGestionContact gestionContact;
     public void deleteallergybyuserid(@PathVariable("id") Long id_user){
         gestionAllergy.deleteAllegiesByUserId(id_user);
     }
-    @GetMapping("/getReccomanded/{id_user}")
+    @GetMapping("/getreccomanded/{id_user}")
     public List<DishDto> getReccomanded(@PathVariable("id_user") Long id_user){
         return gestionAllergy.getRecomendation(id_user);
     }

@@ -4,6 +4,8 @@ import com.cloudinary.utils.ObjectUtils;
 import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.Repository.IPostRepository;
+import com.saccess.forumservice.dto.FullResponse;
+import com.saccess.forumservice.dto.UPost;
 import com.saccess.forumservice.services.IGestionCommentairePost;
 import com.saccess.forumservice.services.IGestionPost;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,9 +21,9 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
-@RequestMapping("/Post")
+@RequestMapping("/api/Post")
 public class PostController {
 
     @Autowired
@@ -65,8 +67,8 @@ public class PostController {
     }
 
     @GetMapping("/getall")
-    public List<Post> getall() {
-        return gestionPost.retrieveAllPosts();
+    public List<UPost> getall() {
+        return gestionPost.retrieveAllPostsWithUser();
     }
 
     @GetMapping("/getallApproved")
@@ -161,5 +163,9 @@ public class PostController {
     @GetMapping("/getActiveMembersCount")
     public Long getActiveMembersCount() {
         return gestionPost.getActiveMembersPost()+commGest.getActiveMembersComm();
+    }
+    @GetMapping("/getFullResponse/{id}")
+    public FullResponse getAllPostUser(@PathVariable("id") Long id){
+        return gestionPost.getUserAndPost(id);
     }
 }

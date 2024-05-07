@@ -1,6 +1,6 @@
 package com.saccess.forumservice.Entities;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,32 +18,29 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+
+public class Post implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPost ;
     private String titlePost;
     private String contentPost ;
-    private LocalDate creationDatePost ;
+    private LocalDateTime creationDatePost ;
     private Long auteurId;
-    private int likes;
-    private int dislikes;
-    @ElementCollection
-    private List<Long> likedBy = new ArrayList<>();
-    @ElementCollection
-    private List<Long> dislikedBy = new ArrayList<>();
-    private boolean isApproved;
-    private int Report;
-    @ElementCollection
-    private List<Long> reportedBy = new ArrayList<>();
-
+    private boolean isApproved = true;
+    private String photoPost;
     @Enumerated(EnumType.STRING)
     private Topic topic;
+    @ElementCollection
+    private List<Long> postLikedBy = new ArrayList<>();
+    @ElementCollection
+    private List<Long> postDislikedBy = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private List<Report> reports= new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "postC")
+    @JsonIgnore
+    private List<CommentairePost> commentairePosts = new ArrayList<>();
 
-    @ManyToOne
-    private Post parentPost;
-
-    @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
-    private List<Post> comments = new ArrayList<>();
 }
 

@@ -4,16 +4,23 @@ import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.Repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
-public class GestionPostImpl implements IGestionPost{
+public class GestionPostImpl implements IGestionPost {
     @Autowired
     IPostRepository postRep;
+
+
+    @Override
+    public Post addPost(Post post) {
+        return postRep.save(post);
+    }
 
     @Override
     public Post retreivePost(Long idPost) {
@@ -22,13 +29,10 @@ public class GestionPostImpl implements IGestionPost{
 
     @Override
     public List<Post> retrieveAllPosts() {
-        return postRep.findAll();
+        return postRep.findByIsApprovedTrueOrderByCreationDatePostDesc();
     }
 
-    @Override
-    public Post addPost(Post post) {
-        return postRep.save(post);
-    }
+
 
     @Override
     public Post updatePost(Post post) {
@@ -51,6 +55,16 @@ public class GestionPostImpl implements IGestionPost{
     }
 
     @Override
+    public Post DisapprovePost(Long idPost) {
+        if (!postRep.existsById(idPost)) {
+            throw new RuntimeException("Post with ID " + idPost + " does not exist.");
+        }
+        Post post=postRep.findById(idPost).get();
+        post.setApproved(false);
+        return postRep.save(post);
+    }
+
+    @Override
     public List<Post> getAllApprovedPostsOrderByDateCreationDesc() {
         return postRep.findByIsApprovedTrueOrderByCreationDatePostDesc();
     }
@@ -58,36 +72,17 @@ public class GestionPostImpl implements IGestionPost{
     @Override
     public Post AddPostAndAssignToUser(Post post, Long userId) {
         post.setAuteurId(userId);
-        post.setCreationDatePost(LocalDate.now());
+        post.setCreationDatePost(LocalDateTime.now());
         return postRep.save(post);
     }
 
-    @Override
-    public Post toggleLikeDislike(Long idPost, Long userId) {
-        Post post = retreivePost(idPost);
-
-        if (post.getLikedBy().contains(userId)) {
-            post.setLikes(post.getLikes() - 1);
-            post.getLikedBy().remove(userId);
-        } else if (post.getDislikedBy().contains(userId)) {
-            post.setDislikes(post.getDislikes() - 1);
-            post.getDislikedBy().remove(userId);
-        } else {
-            post.getLikedBy().add(userId);
-            post.setLikes(post.getLikes() + 1);
-        }
-
-        postRep.save(post);
-
-        return post;
-    }
 
     @Override
     public List<Post> getPostsByTopic(Topic topic) {
         return postRep.findByTopic(topic);
     }
 
-    @Override
+   /* @Override
     public Post reportPost(Long idPost, Long userId) {
         Post post = retreivePost(idPost);
 
@@ -107,9 +102,138 @@ public class GestionPostImpl implements IGestionPost{
 
         return post;
     }
+*/
+
+
+
+/*    @Override
+    public Post addPostView(Long postId, Long userId) {
+        Optional<Post> optionalPost = postRep.findById(postId);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            if (!post.getPostView().contains(userId)) {
+                post.getPostView().add(userId);
+                return postRep.save(post);
+            }
+        }
+        return null;
+    }*/
+
+
+@Override
+    public Post likePost(Long postId, Long userId) {
+        Post post = postRep.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found with id " + postId));
+
+        if (post.getPostDislikedBy().contains(userId)) {
+            post.getPostDislikedBy().remove(userId);
+        }
+        if (!post.getPostLikedBy().contains(userId)) {
+            post.getPostLikedBy().add(userId);
+        }
+
+        return postRep.save(post);
+    }
+
 
     @Override
-    public List<Post> getPostsByAuthor(Long authorId) {
-        return postRep.findByAuteurId(authorId);
+    public Post unlikePost(Long postId, Long userId) {
+            Post post = postRep.findById(postId)
+                    .orElseThrow(() -> new RuntimeException("Post not found with id " + postId));
+
+            if (post.getPostLikedBy().contains(userId)) {
+                post.getPostLikedBy().remove(userId);
+            }
+
+            return postRep.save(post);}
+
+    @Override
+    public Post undeslikePost(Long postId, Long userId) {
+        Post post = postRep.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found with id " + postId));
+
+        if (post.getPostDislikedBy().contains(userId)) {
+            post.getPostDislikedBy().remove(userId);
+        }
+
+        return postRep.save(post);
     }
+
+    public Post dislikePost(Long postId, Long userId) {
+        Post post = postRep.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found with id " + postId));
+
+        if (post.getPostLikedBy().contains(userId)) {
+            post.getPostLikedBy().remove(userId);
+        }
+        if (!post.getPostDislikedBy().contains(userId)) {
+            post.getPostDislikedBy().add(userId);
+        }
+
+        return postRep.save(post);
+    }
+
+    @Override
+    public int getLikesCountForPost(Long postId) {
+        Post post = postRep.findById(postId).orElse(null);
+            return post.getPostLikedBy().size();
+    }
+
+    @Override
+    public int getDislikesCountForPost(Long postId) {
+        Post post = postRep.findById(postId).orElse(null);
+        return post.getPostDislikedBy().size();
+    }
+
+    @Override
+    public boolean isPostLikedByUser(Long postId, Long userId) {
+        Optional<Post> optionalPost = postRep.findById(postId);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            return post.getPostLikedBy().contains(userId);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isPostDeslikedByUser(Long postId, Long userId) {
+        Optional<Post> optionalPost = postRep.findById(postId);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            return post.getPostDislikedBy().contains(userId);
+        }
+        return false;
+    }
+   /* @Value("${upload.path}")
+    private String uploadPath;
+
+    // Rest of your service methods...
+
+    @Override
+    public Optional<byte[]> getPhotoData(String photoId) {
+        try {
+            // Construct the file path based on the photoId
+            Path imagePath = Paths.get(uploadPath, photoId);
+
+            // Read the image data from the file
+            byte[] imageData = Files.readAllBytes(imagePath);
+
+            return Optional.of(imageData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }*/
+@Override
+    public List<Post> getLatestPosts() {
+        return postRep.findTop3ByIsApprovedTrueOrderByCreationDatePostDesc();
+    }
+
+    @Override
+    public Long getActiveMembersPost() {
+        return postRep.countActiveUsers();
+    }
+
+
+
 }

@@ -53,11 +53,13 @@ public class UserController {
             if(authentication.isAuthenticated()){
                 //Create UserDetails for token creation
                 UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
+                User user = userService.getUserByEmail(loginRequest.getUsername());
                 //Create token
                 String token = jwt.createToken(userDetails);
                 map.put("status", 200);
                 map.put("message", "success");
                 map.put("token",token);
+                map.put("role", user.getRole());
                 return new ResponseEntity<Object>(map, HttpStatus.OK);
                 //return ResponseEntity.ok(token);
             }else {

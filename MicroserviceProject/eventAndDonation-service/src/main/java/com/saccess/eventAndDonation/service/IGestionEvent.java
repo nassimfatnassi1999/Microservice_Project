@@ -23,6 +23,7 @@ public interface IGestionEvent {
     Event addEvent(Event event);
     public void addEventWithImage(Event event, MultipartFile imageFile);
 
+    public Optional<Event> getEventById(Long id);
     Event updateEvent(Long id, Event updatedvent);
     Userdto findUserById(Long userid);
 

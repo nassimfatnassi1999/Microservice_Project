@@ -46,7 +46,7 @@ public class EventController {
     public ResponseEntity<byte[]> generatePdf(@PathVariable Long eventId) {
         // Récupérer l'événement à partir de la base de données
         Optional<Event> eventOptional = eventRepository.findById(eventId);
-        if (eventOptional.isPresent()) {// Si l'événement est trouvé dans la base de données
+        if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
             // Générer le PDF à partir de l'événement
             ByteArrayOutputStream pdfStream = pdfGenerationService.generatePdf(event);
@@ -56,17 +56,17 @@ public class EventController {
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDispositionFormData("filename", "event_details.pdf");
             headers.setContentLength(pdfBytes.length);
-            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);// Retourner le PDF dans la réponse HTTP
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);// Retourner une réponse 404 Not Found
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/filter")
     public String filterText(@RequestBody String text) {
-        if (badWordsFilterService.containsBadWords(text)) {// Vérifier si le texte contient des mots inappropriés
-            return badWordsFilterService.filterBadWords(text);// Filtrer les mots inappropriés s'ils sont présents
+        if (badWordsFilterService.containsBadWords(text)) {
+            return badWordsFilterService.filterBadWords(text);
         }
-        return text; // Retourner le texte original s'il ne contient pas de mots inappropriés
+        return text;
     }
     @GetMapping("/getAllUsers")
     public List<Userdto> getAllUsers(){return gestionEvent.getAllUsers();}

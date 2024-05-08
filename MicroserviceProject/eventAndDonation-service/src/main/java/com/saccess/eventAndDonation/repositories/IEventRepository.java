@@ -7,15 +7,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IEventRepository extends JpaRepository<Event, Long> {
     @Query("SELECT u FROM Event u WHERE u.title LIKE %:title% ")
     List<Event> findBytitle(@Param("title") String title);
 
+
+
+    @Query("SELECT u FROM Event u WHERE u.id_event = :id_event ")
+    Optional<Event> findById(@Param("id") Long id);
     @Query("select u from Event u where u.type=:type")
     public List<Event> getEventByType(@org.springframework.data.repository.query.Param("type") Type type);
 

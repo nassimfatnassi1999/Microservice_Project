@@ -110,6 +110,10 @@ public class GestionEventImpl implements IGestionEvent{
     public List<Event> getEventByDate(LocalDate date) {
         return eventRepository.getEventByDate(date);
     }
+
+    public Optional<Event> getEventById(Long id) {
+        return eventRepository.findById(id);
+    }
     @Override
    public FullResponse getUserAndEvent(Long id) {
         Userdto user = userClient.getUserById(id); //user jebneh

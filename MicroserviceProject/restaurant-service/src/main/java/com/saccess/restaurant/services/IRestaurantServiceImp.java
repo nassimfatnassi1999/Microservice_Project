@@ -28,6 +28,11 @@ public class IRestaurantServiceImp implements IRestaurantService {
     }
 
     @Override
+    public List<Restaurant> retrieveAllRestaurantsByOrders() {
+        return (List<Restaurant>) iRestaurantRepository.findAllOrdered();
+    }
+
+    @Override
     public Restaurant addRestaurant(Restaurant restaurant) {
         return iRestaurantRepository.save(restaurant);
     }

@@ -1,6 +1,7 @@
 package com.saccess.restaurant.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.saccess.restaurant.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class DishOrder {
 
 //    @ManyToOne
 //    @JoinColumn(name = "id_user")
-   private long id_user;
+   private int id_user;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="dishes")

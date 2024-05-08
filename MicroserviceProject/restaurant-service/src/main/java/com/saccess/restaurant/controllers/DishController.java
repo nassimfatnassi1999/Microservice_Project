@@ -1,5 +1,7 @@
 package com.saccess.restaurant.controllers;
 
+import com.saccess.restaurant.dto.DishDTO;
+import com.saccess.restaurant.dto.RestaurantDTO;
 import com.saccess.restaurant.entities.Dish;
 import com.saccess.restaurant.services.IDishService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,16 @@ public class DishController {
     private IDishService dishService;
 
     @GetMapping
-    public ResponseEntity<List<Dish>> getAllDishes() {
-        List<Dish> dishes = dishService.retrieveAllDishes();
+    public ResponseEntity<List<DishDTO>> getAllDishes() {
+        List<DishDTO> dishes = dishService.retrieveAllDishes().stream().map(dish -> new DishDTO(
+                dish.getId_dish(),
+                dish.getName(),
+                dish.getDescription(),
+                dish.getPrice(),
+                dish.getPhoto(),
+                String.valueOf(dish.getCategory()),
+                dish.getOrders(),
+                dish.getRestaurant())).toList();
         return ResponseEntity.ok(dishes);
     }
 

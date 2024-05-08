@@ -1,5 +1,6 @@
 package com.saccess.allergyservice.services;
 
+import com.saccess.allergyservice.dto.Userdto;
 import com.saccess.allergyservice.entities.Contact;
 import com.saccess.allergyservice.repositories.IContactRespository;
 import lombok.AllArgsConstructor;
@@ -40,12 +41,12 @@ public class GestionContactImpl implements IGestionContact {
         message.setFrom("*-----*-----*----*");
         message.setSubject("Confirmation de réception de votre Contact");
         message.setTo(toEmail);
-        message.setText( "\"Cher utilisateur,\\n\\n\" +\n" +
-                "                \"Nous avons bien reçu votre contact et nous vous en remercions. Votre opinion est précieuse pour nous \" +\n" +
-                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" +\n" +
-                "                \"n'hésitez pas à nous contacter.\\n\\n\" +\n" +
-                "                \"Cordialement,\\n\" +\n" +
-                "                \"L'équipe de notre entreprise\"");
+        message.setText(  "\"Cher utilisateur,\" \n" +
+                "                \"Nous avons bien reçu votre CONTACT et nous vous en remercions. Votre opinion est précieuse pour nous \" \n" +
+                "                \"et nous l'utiliserons pour améliorer nos services. Si vous avez d'autres questions ou commentaires, \" \n" +
+                "                \"n'hésitez pas à nous contacter.\"\n" +
+                "                \"Cordialement,\" \n" +
+                "                \"ESPREAT\"");
         emailSender.send(message);
     }
 }

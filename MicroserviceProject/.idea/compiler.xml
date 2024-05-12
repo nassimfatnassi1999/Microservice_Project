@@ -12,7 +12,6 @@
         <module name="discoveryEureka" />
         <module name="restaurant-service" />
         <module name="forum-service" />
-        <module name="configServer" />
         <module name="eventAndDonation-service" />
         <module name="user-service" />
         <module name="gateway" />
@@ -21,6 +20,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="commande-service" target="17" />
+      <module name="configServer" target="17" />
       <module name="recomandation-service" target="17" />
     </bytecodeTargetLevel>
   </component>

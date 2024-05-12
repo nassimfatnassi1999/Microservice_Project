@@ -108,6 +108,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>allergy</finalName>
 	</build>
 
 </project>

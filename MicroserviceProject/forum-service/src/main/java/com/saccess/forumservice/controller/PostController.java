@@ -1,6 +1,5 @@
 package com.saccess.forumservice.controller;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
+
 import com.saccess.forumservice.Entities.Post;
 import com.saccess.forumservice.Entities.Topic;
 import com.saccess.forumservice.Repository.IPostRepository;
@@ -28,6 +27,7 @@ public class PostController {
 
     @Autowired
     IGestionPost gestionPost;
+    
     @Autowired
     IGestionCommentairePost commGest;
 
@@ -70,6 +70,10 @@ public class PostController {
     public List<UPost> getall() {
         return gestionPost.retrieveAllPostsWithUser();
     }
+    @GetMapping("/getLatestPosts")
+    public List<UPost> getLatestPostsWithUsers() {
+        return gestionPost.getLatestPostsWithUsers();
+    }
 
     @GetMapping("/getallApproved")
     public List<Post> getAllApprovedPostsOrdered() {
@@ -80,7 +84,10 @@ public class PostController {
     public Post getId(@PathVariable("id") Long id) {
         return gestionPost.retreivePost(id);
     }
-
+    @GetMapping("/getIdWithUser/{id}")
+    public UPost getIdWithUser(@PathVariable("id") Long id) {
+        return gestionPost.retrievePostWithUser(id);
+    }
     @DeleteMapping("/deleteID/{id}")
     public void delete(@PathVariable("id") long id){
         gestionPost.removePost(id);
@@ -155,10 +162,7 @@ public class PostController {
 
 
 
-    @GetMapping("/getLatestPosts")
-    public List<Post> getLatestPosts() {
-        return gestionPost.getLatestPosts();
-    }
+
 
     @GetMapping("/getActiveMembersCount")
     public Long getActiveMembersCount() {

@@ -59,6 +59,9 @@ IGestionPost gestionPost;
     @GetMapping("/getPostComments/{postId}")
     public List<CommentairePost> getPostComments(@PathVariable Long postId) {
         return gestionCommentaire.getCommentsForPost(postId);}
+    @GetMapping("/getPostCommentsWithUser/{postId}")
+    public List<CommentairePost> getPostCommentsWithUser(@PathVariable Long postId) {
+        return gestionCommentaire.getCommentsForPost(postId);}
 
 /*    @PostMapping("/likeComm/{commId}/{userId}")
     public CommentairePost likeCommentaire(@PathVariable("commId") Long commId, @PathVariable("userId") Long userId) {
@@ -68,4 +71,5 @@ IGestionPost gestionPost;
     public CommentairePost unLikeCommentaire(@PathVariable("commId") Long commId, @PathVariable("userId") Long userId) {
         return gestionCommentaire.unLikeCommentaire(commId,userId);
     }*/
+
 }

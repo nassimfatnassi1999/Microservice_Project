@@ -7,20 +7,50 @@ import com.saccess.forumservice.clients.UserClient;
 import com.saccess.forumservice.dto.FullResponse;
 import com.saccess.forumservice.dto.UPost;
 import com.saccess.forumservice.dto.Userdto;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-
+@AllArgsConstructor
+@Slf4j
 @Service
 public class GestionPostImpl implements IGestionPost {
     @Autowired
     IPostRepository postRep;
     @Autowired
     UserClient userClient;
+/*
+    @Autowired
+    private JavaMailSender emailSender;
+    public  void sendNotApprovedPost(String toEmail) {
+
+        SimpleMailMessage message  = new SimpleMailMessage();
+        message.setFrom("*-----*-----*----*");
+        message.setSubject("Confirmation de réception de votre feedback");
+        message.setTo(toEmail);
+        message.setText("(postRep.findByApprovedFalse()).toString()");
+        emailSender.send(message);
+    }
+    @Override
+    public List<Post> getAllNotApprovedPosts() {
+
+        return postRep.findByApprovedFalse();
+    }
+    @Transactional
+    @Override
+    public void EmailNotApprovedPosts() {
+        String email= "espreat.saccessgroup@gmail.com";
+        sendNotApprovedPost(email);
+        //mot de passe ce mail (azerty1312@@)
+    }
+*/
 
 
     @Override
@@ -31,6 +61,23 @@ public class GestionPostImpl implements IGestionPost {
     @Override
     public Post retreivePost(Long idPost) {
         return postRep.findById(idPost).get();
+    }
+
+    @Override
+    public UPost retrievePostWithUser(Long idPost) {
+        Post post = postRep.findById(idPost).get();
+        UPost postWithUser = new UPost(
+                post.getIdPost(),
+                post.getTitlePost(),
+                post.getContentPost(),
+                post.getCreationDatePost(),
+                post.getAuteurId(),
+                post.isApproved(),
+                post.getPhotoPost(),
+                post.getTopic(),
+                userClient.getUserById(post.getAuteurId())
+        );
+        return postWithUser;
     }
 
     @Override
@@ -45,6 +92,20 @@ public class GestionPostImpl implements IGestionPost {
             return new UPost(post.getIdPost(),post.getTitlePost(),post.getContentPost(),post.getCreationDatePost(),post.getAuteurId(),post.isApproved(),post.getPhotoPost(),post.getTopic(),userClient.getUserById(post.getAuteurId()));
         }).toList();
         return posts1;
+    }
+
+    @Override
+    public List<UPost> getLatestPostsWithUsers() {
+        List<Post> posts =  postRep.findTop3ByIsApprovedTrueOrderByCreationDatePostDesc();
+        List<UPost> posts2 = posts.stream().map(post -> {
+            return new UPost(post.getIdPost(),post.getTitlePost(),post.getContentPost(),post.getCreationDatePost(),post.getAuteurId(),post.isApproved(),post.getPhotoPost(),post.getTopic(),userClient.getUserById(post.getAuteurId()));}).toList();
+        return posts2;
+    }
+
+    @Override
+    public List<Post> getLatestPosts() {
+
+        return postRep.findTop3ByIsApprovedTrueOrderByCreationDatePostDesc();
     }
 
     @Override
@@ -81,6 +142,9 @@ public class GestionPostImpl implements IGestionPost {
     public List<Post> getAllApprovedPostsOrderByDateCreationDesc() {
         return postRep.findByIsApprovedTrueOrderByCreationDatePostDesc();
     }
+
+
+
 
     @Override
     public Post AddPostAndAssignToUser(Post post, Long userId) {
@@ -237,10 +301,6 @@ public class GestionPostImpl implements IGestionPost {
             return Optional.empty();
         }
     }*/
-@Override
-    public List<Post> getLatestPosts() {
-        return postRep.findTop3ByIsApprovedTrueOrderByCreationDatePostDesc();
-    }
 
     @Override
     public Long getActiveMembersPost() {

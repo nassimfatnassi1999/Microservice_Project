@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface IPostRepository extends JpaRepository<Post,Long> {
     List<Post> findByIsApprovedTrueOrderByCreationDatePostDesc();
+//    List<Post> findByApprovedFalse();
 
     List<Post> findByTopic(Topic topic);
     List<Post> findByAuteurId(Long authorId);

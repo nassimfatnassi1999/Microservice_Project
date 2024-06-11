@@ -36,11 +36,15 @@ public interface IGestionPost {
 
 //    Post addPostView(Long postId, Long userId);
 List<Post> getLatestPosts();
+    List<UPost> getLatestPostsWithUsers();
+    UPost retrievePostWithUser(Long idPost);
 boolean isPostLikedByUser(Long postId, Long userId);
 
     boolean isPostDeslikedByUser(Long postId, Long userId);
     Long getActiveMembersPost();
  FullResponse getUserAndPost(Long id);
  Userdto findUserById(Long userid);
+   /* List<Post> getAllNotApprovedPosts();
+    void EmailNotApprovedPosts();*/
 
 }
